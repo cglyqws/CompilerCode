@@ -80,7 +80,7 @@ public class Tokenizer {
         String s = tempstring2.toString();
         s.replace(" ","");
 
-        if (s.equals("begin"))
+        if (s.equals(" begin"))
         {
             return new Token(TokenType.Begin,"begin",it.previousPos(), it.currentPos());
         }

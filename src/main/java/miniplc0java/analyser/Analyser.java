@@ -11,7 +11,6 @@ import miniplc0java.tokenizer.Token;
 import miniplc0java.tokenizer.TokenType;
 import miniplc0java.tokenizer.Tokenizer;
 import miniplc0java.util.Pos;
-
 import java.util.*;
 
 public final class Analyser {
@@ -40,7 +39,7 @@ public final class Analyser {
 
     /**
      * 查看下一个 Token
-     * 
+     *
      * @return
      * @throws TokenizeError
      */
@@ -53,7 +52,7 @@ public final class Analyser {
 
     /**
      * 获取下一个 Token
-     * 
+     *
      * @return
      * @throws TokenizeError
      */
@@ -69,7 +68,7 @@ public final class Analyser {
 
     /**
      * 如果下一个 token 的类型是 tt，则返回 true
-     * 
+     *
      * @param tt
      * @return
      * @throws TokenizeError
@@ -81,7 +80,7 @@ public final class Analyser {
 
     /**
      * 如果下一个 token 的类型是 tt，则前进一个 token 并返回这个 token
-     * 
+     *
      * @param tt 类型
      * @return 如果匹配则返回这个 token，否则返回 null
      * @throws TokenizeError
@@ -97,7 +96,7 @@ public final class Analyser {
 
     /**
      * 如果下一个 token 的类型是 tt，则前进一个 token 并返回，否则抛出异常
-     * 
+     *
      * @param tt 类型
      * @return 这个 token
      * @throws CompileError 如果类型不匹配
@@ -113,7 +112,7 @@ public final class Analyser {
 
     /**
      * 获取下一个变量的栈偏移
-     * 
+     *
      * @return
      */
     private int getNextVariableOffset() {
@@ -122,7 +121,7 @@ public final class Analyser {
 
     /**
      * 添加一个符号
-     * 
+     *
      * @param name          名字
      * @param isInitialized 是否已赋值
      * @param isConstant    是否是常量
@@ -139,7 +138,7 @@ public final class Analyser {
 
     /**
      * 设置符号为已赋值
-     * 
+     *
      * @param name   符号名称
      * @param curPos 当前位置（报错用）
      * @throws AnalyzeError 如果未定义则抛异常
@@ -155,7 +154,7 @@ public final class Analyser {
 
     /**
      * 获取变量在栈上的偏移
-     * 
+     *
      * @param name   符号名
      * @param curPos 当前位置（报错用）
      * @return 栈偏移
@@ -172,7 +171,7 @@ public final class Analyser {
 
     /**
      * 获取变量是否是常量
-     * 
+     *
      * @param name   符号名
      * @param curPos 当前位置（报错用）
      * @return 是否为常量
