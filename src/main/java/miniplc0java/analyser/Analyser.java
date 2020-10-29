@@ -451,7 +451,7 @@ public final class Analyser {
             int value = 0;
             if (token.getValueString()!=null)
             {
-                value = Integer.valueOf(token.getValueString());
+                value = Long.valueOf(token.getValueString());
             }
             instructions.add(new Instruction(Operation.LIT, value));
         } else if (check(TokenType.LParen)) {
