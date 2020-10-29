@@ -2,6 +2,7 @@ package miniplc0java.tokenizer;
 
 import miniplc0java.error.TokenizeError;
 import miniplc0java.error.ErrorCode;
+import miniplc0java.util.Pos;
 
 public class Tokenizer {
 
@@ -70,7 +71,9 @@ public class Tokenizer {
         // -- 否则，返回标识符
         //
         // Token 的 Value 应填写标识符或关键字的字符串
-        Pos StringBeginPos = new Pos(it.currentPos().row, it.currentPos().col);
+        int row = it.currentPos().row;
+        int column =  it.currentPos().col;
+        Pos StringBeginPos = new Pos(row, column);
         StringBuilder tempstring2 = new StringBuilder();
 
         while(Character.isDigit(it.peekChar())||Character.isLetter(it.peekChar()))

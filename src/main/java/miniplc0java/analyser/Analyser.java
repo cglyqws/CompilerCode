@@ -447,11 +447,11 @@ public final class Analyser {
         } else if (check(TokenType.Uint)) {
             // 是整数
             // 加载整数值
-            var token = expect(TokenType.uint);
+            var token = expect(TokenType.Uint);
             int value = 0;
             if (token.getValueString()!=null)
             {
-                value = Integer.valueOf(item.getValueStirng());
+                value = Integer.valueOf(token.getValueString());
             }
             instructions.add(new Instruction(Operation.LIT, value));
         } else if (check(TokenType.LParen)) {
