@@ -263,7 +263,7 @@ public final class Analyser {
 
             // 加入符号表，请填写名字和当前位置（报错用）
             String name = /* 名字 */ nameToken.getValueString();
-            addSymbol(name, false, false, /* 当前位置 */ nameToken.getStartPos());
+            addSymbol(name, initialized, false, /* 当前位置 */ nameToken.getStartPos());
 
             // 如果没有初始化的话在栈里推入一个初始值
             if (!initialized) {
@@ -327,22 +327,27 @@ public final class Analyser {
         while (true) {
             // 预读可能是运算符的 token
             var op = peek();
-            if (op.getTokenType() != TokenType.Plus && op.getTokenType() != TokenType.Minus) {
+            // 运算符
+            if (op.getTokenType() == TokenType.Plus && op.getTokenType() == TokenType.Minus) {
+                next();
+                // 项
+                analyseItem();
+
+                // 生成代码
+                if (op.getTokenType() == TokenType.Plus) {
+                    instructions.add(new Instruction(Operation.ADD));
+                } else if (op.getTokenType() == TokenType.Minus) {
+                    instructions.add(new Instruction(Operation.SUB));
+                }
+            }
+            else
+            {
                 break;
             }
 
-            // 运算符
-            next();
 
-            // 项
-            analyseItem();
 
-            // 生成代码
-            if (op.getTokenType() == TokenType.Plus) {
-                instructions.add(new Instruction(Operation.ADD));
-            } else if (op.getTokenType() == TokenType.Minus) {
-                instructions.add(new Instruction(Operation.SUB));
-            }
+
         }
     }
 
