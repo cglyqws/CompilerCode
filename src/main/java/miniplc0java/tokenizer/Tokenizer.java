@@ -55,8 +55,8 @@ public class Tokenizer {
         {
             tempstring.append(it.nextChar());
         }
-        long uil = 0;
-        uil = Long.parseLong(tempstring.toString());
+        int uil = 0;
+        uil = Integer.parseLong(tempstring.toString());
         return new Token(TokenType.Uint,uil,UintBegin,it.currentPos());
     }
 

@@ -448,12 +448,12 @@ public final class Analyser {
             // 是整数
             // 加载整数值
             var token = expect(TokenType.Uint);
-            long value = 0;
+            int value = 0;
             if (token.getValueString()!=null)
             {
-                value = Long.valueOf(token.getValueString());
+                value = Integer.valueOf(token.getValueString());
             }
-            instructions.add(new Instruction(Operation.LIT, (int)value));
+            instructions.add(new Instruction(Operation.LIT, value));
         } else if (check(TokenType.LParen)) {
             // 是表达式
             // 调用相应的处理函数
