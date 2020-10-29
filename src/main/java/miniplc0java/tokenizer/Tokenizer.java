@@ -70,6 +70,7 @@ public class Tokenizer {
         // -- 否则，返回标识符
         //
         // Token 的 Value 应填写标识符或关键字的字符串
+        Pos StringBeginPos = new Pos(it.currentPos().row, it.currentPos().col);
         StringBuilder tempstring2 = new StringBuilder();
 
         while(Character.isDigit(it.peekChar())||Character.isLetter(it.peekChar()))
@@ -77,30 +78,31 @@ public class Tokenizer {
             tempstring2.append(it.nextChar());
         }
         tempstring2.append(it.nextChar());
-        String s = tempstring2.toString();
-        s.replace(" ","");
+        String s1 = tempstring2.toString();
+        String s = s1.toLowerCase();
 
-        if (s.equals(" begin"))
+
+        if (s.equals("begin"))
         {
-            return new Token(TokenType.Begin,"begin",it.previousPos(), it.currentPos());
+            return new Token(TokenType.Begin,s1,StringBeginPos, it.currentPos());
         }
         else if (s.equals("end"))
         {
-            return new Token(TokenType.End,"end", it.previousPos(), it.currentPos());
+            return new Token(TokenType.End,s1, StringBeginPos, it.currentPos());
         }
         else if (s.equals("var"))
         {
-            return new Token(TokenType.Var,"var",it.previousPos(),it.currentPos());
+            return new Token(TokenType.Var,s1,StringBeginPos,it.currentPos());
         }
         else if (s.equals("const"))
         {
-            return new Token(TokenType.Const,"const",it.previousPos(),it.currentPos());
+            return new Token(TokenType.Const,s1,StringBeginPos,it.currentPos());
         }
         else if (s.equals("print"))
         {
-            return new Token(TokenType.Print,"print",it.previousPos(),it.currentPos());
+            return new Token(TokenType.Print,s1,StringBeginPos,it.currentPos());
         }
-        return new Token(TokenType.Ident,s,it.previousPos(),it.currentPos());
+        else return new Token(TokenType.Ident,s1,StringBeginPos,it.currentPos());
 
     }
 
