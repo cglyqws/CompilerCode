@@ -79,7 +79,7 @@ public class Tokenizer {
         while(Character.isDigit(tempchar)||Character.isLetter(tempchar))
         {
             tempstring2.append(tempchar);
-            tempchar = it.nexChar();
+            tempchar = it.nextChar();
         }
         String s1 = tempstring2.toString();
         String s = s1.toLowerCase();
