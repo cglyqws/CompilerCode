@@ -48,17 +48,17 @@ public class Tokenizer {
         // 解析成功则返回无符号整数类型的token，否则返回编译错误
         //
         // Token 的 Value 应填写数字的值
+        Pos UintBegin = new Pos(it.currentPos().row, it.currentPos().col);
         StringBuilder tempstring = new StringBuilder();
-
-        while(Character.isDigit(it.peekChar()))
+        char tempchar = it.nextChar();
+        while(Character.isDigit(tempchar))
         {
-            tempstring.append(it.nextChar());
+            tempstring.append(tempchar);
+            tempchar = it.nextChar();
         }
-        tempstring.append(it.nextChar());
         long uil = 0;
         uil = Long.parseLong(tempstring.toString());
-        return new Token(TokenType.Uint,uil,it.previousPos(),it.currentPos());
-        //throw new Error("Not implemented");
+        return new Token(TokenType.Uint,uil,UintBegin,it.currentPos());
     }
 
     private Token lexIdentOrKeyword() throws TokenizeError {
@@ -75,12 +75,12 @@ public class Tokenizer {
         int column =  it.currentPos().col;
         Pos StringBeginPos = new Pos(row, column);
         StringBuilder tempstring2 = new StringBuilder();
-
-        while(Character.isDigit(it.peekChar())||Character.isLetter(it.peekChar()))
+        char tempchar = it.nextChar();
+        while(Character.isDigit(tempchar)||Character.isLetter(tempchar))
         {
-            tempstring2.append(it.nextChar());
+            tempstring2.append(tempchar);
+            tempchar = it.nexChar();
         }
-        tempstring2.append(it.nextChar());
         String s1 = tempstring2.toString();
         String s = s1.toLowerCase();
 
