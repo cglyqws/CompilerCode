@@ -50,11 +50,10 @@ public class Tokenizer {
         // Token 的 Value 应填写数字的值
         Pos UintBegin = new Pos(it.currentPos().row, it.currentPos().col);
         StringBuilder tempstring = new StringBuilder();
-        char tempchar = it.nextChar();
-        while(Character.isDigit(tempchar))
+
+        while(Character.isDigit(it.peekChar()))
         {
-            tempstring.append(tempchar);
-            tempchar = it.nextChar();
+            tempstring.append(it.nextChar());
         }
         int uil = 0;
         uil = Integer.parseInt(tempstring.toString());
@@ -75,11 +74,10 @@ public class Tokenizer {
         int column =  it.currentPos().col;
         Pos StringBeginPos = new Pos(row, column);
         StringBuilder tempstring2 = new StringBuilder();
-        char tempchar = it.nextChar();
-        while(Character.isDigit(tempchar)||Character.isLetter(tempchar))
+
+        while(Character.isDigit(it.peekChar())||Character.isLetter(it.peekChar()))
         {
-            tempstring2.append(tempchar);
-            tempchar = it.nextChar();
+            tempstring2.append(it.nextChar());
         }
         String s1 = tempstring2.toString();
         String s = s1.toLowerCase();
