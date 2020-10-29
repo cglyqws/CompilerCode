@@ -327,27 +327,22 @@ public final class Analyser {
         while (true) {
             // 预读可能是运算符的 token
             var op = peek();
-            // 运算符
-            if (op.getTokenType() == TokenType.Plus && op.getTokenType() == TokenType.Minus) {
-                next();
-                // 项
-                analyseItem();
-
-                // 生成代码
-                if (op.getTokenType() == TokenType.Plus) {
-                    instructions.add(new Instruction(Operation.ADD));
-                } else if (op.getTokenType() == TokenType.Minus) {
-                    instructions.add(new Instruction(Operation.SUB));
-                }
-            }
-            else
-            {
+            if (op.getTokenType() != TokenType.Plus && op.getTokenType() != TokenType.Minus) {
                 break;
             }
 
+            // 运算符
+            next();
 
+            // 项
+            analyseItem();
 
-
+            // 生成代码
+            if (op.getTokenType() == TokenType.Plus) {
+                instructions.add(new Instruction(Operation.ADD));
+            } else if (op.getTokenType() == TokenType.Minus) {
+                instructions.add(new Instruction(Operation.SUB));
+            }
         }
     }
 
