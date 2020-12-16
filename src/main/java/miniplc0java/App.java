@@ -73,37 +73,37 @@ public class App {
         scanner = new Scanner(input);
         while (scanner.hasNextLine())
         {
-            output.println(scanner.nextLine());
+            System.out.println(scanner.nextLine());
         }
 
         var iter = new StringIter(scanner);
         var tokenizer = tokenize(iter);
 
 
-//        var tokens = new ArrayList<Token>();
-//        try {
-//            while (true) {
-//                var token = tokenizer.nextToken();
-//                if (token.getTokenType().equals(TokenType.EOF)) {
-//                    break;
-//                }
-//                tokens.add(token);
-//            }
-//        } catch (Exception e) {
-//            // 遇到错误不输出，直接退出
-//            System.err.println(e);
-//            System.exit(0);
-//            return;
-//        }
-//        for (Token token : tokens) {
-//            output.println(token.toString());
-//        }
+        var tokens = new ArrayList<Token>();
+        try {
+            while (true) {
+                var token = tokenizer.nextToken();
+                if (token.getTokenType().equals(TokenType.EOF)) {
+                    break;
+                }
+                tokens.add(token);
+            }
+        } catch (Exception e) {
+            // 遇到错误不输出，直接退出
+            System.err.println(e);
+            System.exit(0);
+            return;
+        }
+        for (Token token : tokens) {
+            output.println(token.toString());
+        }
 
 
 
 
-//        var analyzer = new Analyser(tokenizer);
-//        analyzer.test();
+        var analyzer = new Analyser(tokenizer);
+        analyzer.test();
 
 //        if (result.getBoolean("tokenize")) {
 //            // tokenize
