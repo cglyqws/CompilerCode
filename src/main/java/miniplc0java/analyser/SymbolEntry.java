@@ -1,19 +1,24 @@
 package miniplc0java.analyser;
 
+import miniplc0java.tokenizer.TokenType;
+
 public class SymbolEntry {
     boolean isConstant;
     boolean isInitialized;
+    TokenType type;
     int stackOffset;
-
+    int location;
     /**
      * @param isConstant
      * @param isDeclared
      * @param stackOffset
      */
-    public SymbolEntry(boolean isConstant, boolean isDeclared, int stackOffset) {
+    public SymbolEntry(boolean isConstant, TokenType type,boolean isDeclared, int stackOffset,int location) {
         this.isConstant = isConstant;
         this.isInitialized = isDeclared;
         this.stackOffset = stackOffset;
+        this.type = type;
+        this.location = location;
     }
 
     /**
@@ -56,5 +61,16 @@ public class SymbolEntry {
      */
     public void setStackOffset(int stackOffset) {
         this.stackOffset = stackOffset;
+    }
+
+    @Override
+    public String toString() {
+        return "SymbolEntry{" +
+                "isConstant=" + isConstant +
+                ", isInitialized=" + isInitialized +
+                ", type=" + type +
+                ", stackOffset=" + stackOffset +
+                ", location=" + location +
+                '}';
     }
 }
