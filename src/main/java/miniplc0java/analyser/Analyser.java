@@ -251,7 +251,6 @@ public final class Analyser {
     {
         expect(TokenType.FN_KW);
         expect(TokenType.Ident);
-        index[processpoint++] = top;
         expect(TokenType.LParen);
         if (check(TokenType.RParen))
         {
@@ -269,6 +268,7 @@ public final class Analyser {
     private void analyseblockstmt() throws CompileError
     {
         expect(TokenType.LBParen);
+        index[processpoint++] = top;
         while (!check(TokenType.RBParen))
         {
             analysestmt();

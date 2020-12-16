@@ -27,17 +27,17 @@ import net.sourceforge.argparse4j.inf.Namespace;
 
 public class App {
     public static void main(String[] args) throws CompileError {
-        var argparse = buildArgparse();
-        Namespace result;
-        try {
-            result = argparse.parseArgs(args);
-        } catch (ArgumentParserException e1) {
-            argparse.handleError(e1);
-            return;
-        }
+//        var argparse = buildArgparse();
+//        Namespace result;
+//        try {
+//            result = argparse.parseArgs(args);
+//        } catch (ArgumentParserException e1) {
+//            argparse.handleError(e1);
+//            return;
+//        }
 
-        var inputFileName = result.getString("input");
-        var outputFileName = result.getString("asm");
+        var inputFileName = args[0];
+        var outputFileName = args[1];
 //
 //        var inputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\in.txt";
 //        var outputFileName = "E:\\大三上\\大三上\\编译原理\\Code\\src\\main\\java\\miniplc0java\\out.txt";
@@ -68,9 +68,14 @@ public class App {
                 return;
             }
         }
-        output.println(input);
+
         Scanner scanner;
         scanner = new Scanner(input);
+        while (scanner.hasNextLine())
+        {
+            output.println(scanner.nextLine());
+        }
+
         var iter = new StringIter(scanner);
         var tokenizer = tokenize(iter);
 
@@ -141,16 +146,16 @@ public class App {
 //        }
     }
 
-    private static ArgumentParser buildArgparse() {
-        var builder = ArgumentParsers.newFor("miniplc0-java");
-        var parser = builder.build();
-        parser.addArgument("-t", "--tokenize").help("Tokenize the input").action(Arguments.storeTrue());
-        parser.addArgument("-l", "--analyse").help("Analyze the input").action(Arguments.storeTrue());
-        parser.addArgument("-o", "--output").help("Set the output file").required(true).dest("output")
-                .action(Arguments.store());
-        parser.addArgument("file").required(true).dest("input").action(Arguments.store()).help("Input file");
-        return parser;
-    }
+//    private static ArgumentParser buildArgparse() {
+//        var builder = ArgumentParsers.newFor("miniplc0-java");
+//        var parser = builder.build();
+//        parser.addArgument("-t", "--tokenize").help("Tokenize the input").action(Arguments.storeTrue());
+//        parser.addArgument("-l", "--analyse").help("Analyze the input").action(Arguments.storeTrue());
+//        parser.addArgument("-o", "--output").help("Set the output file").required(true).dest("asm")
+//                .action(Arguments.store());
+//        parser.addArgument("file").required(true).dest("input").action(Arguments.store()).help("Input file");
+//        return parser;
+//    }
 
     private static Tokenizer tokenize(StringIter iter) {
         var tokenizer = new Tokenizer(iter);
