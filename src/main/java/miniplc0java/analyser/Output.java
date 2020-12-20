@@ -29,7 +29,7 @@ public class Output {
         int size = b.length;
         for (int i=size-1;i>=0;i--)
         {
-            p.print(he(b[i]));
+            p.write(b[i]);
         }
     }
     public static void printfile(PrintStream output)
@@ -63,6 +63,8 @@ public class Output {
         }
             List<FuntionEntry> funtiontable = gt.getFuntionTable();
             int funsize= funtiontable.size();
+            print(output,Data2Byte.getBytes(funsize));
+
             for (int i = 0; i < funsize; i++) {
                 FuntionEntry fun = funtiontable.get(i);
                 int nameloca = gt.findfuntionindexbyname(fun.getFuncname());
@@ -79,7 +81,7 @@ public class Output {
 
 
                 for (Instruction instruction : instructions) {
-                    print(output,Data2Byte.getBytes(instruction.indexinstruct()));
+                    print(output,Data2Byte.getBytes3(instruction.indexinstruct()));
                     if (instruction.getOpt()== Operation.push)
                     {
                         print(output,Data2Byte.getBytes2(instruction.getX()));

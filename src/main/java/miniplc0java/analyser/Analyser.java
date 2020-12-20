@@ -46,6 +46,20 @@ public final class Analyser {
         return instructions;
     }
 
+    public void symaddfun(String name)
+    {
+        SymbolEntry s = new SymbolEntry();
+        s.setSysname(name);
+        if (isstandard(name))
+        {
+            s.setConstant(true);
+        }
+        else s.setConstant(false);
+        s.setSymbolType(SymbolType.FUNTION);
+
+        symbolTable.add(s);
+    }
+
     /**
      * 在当前符号表中搜索
      */
@@ -73,7 +87,7 @@ public final class Analyser {
         }
         else
         {
-            FuntionEntry f = funtionTable.get(now);
+            FuntionEntry f = funtionTable.get(funtionTable.size()-1);
             return f.getSymbolTable();
         }
     }
@@ -90,7 +104,7 @@ public final class Analyser {
         }
         else
         {
-            FuntionEntry f = funtionTable.get(now);
+            FuntionEntry f = funtionTable.get(funtionTable.size()-1);
             return f.getInstructions();
         }
     }
@@ -271,6 +285,8 @@ public final class Analyser {
         var token1 = expect(TokenType.Ident);
         FuntionEntry f = new FuntionEntry();
         f.setFuncname(token1.getValueString());
+
+        symaddfun(token1.getValueString());
         funtionTable.add(f);
         expect(TokenType.LParen);
         if (check(TokenType.RParen))
@@ -299,10 +315,10 @@ public final class Analyser {
         funtionTable.set(funtionTable.size()-1,f);
         localvar = 0;
         analyseblockstmt();
+        now--;
         f = funtionTable.get(funtionTable.size()-1);
         f.setLocalvar(localvar);
         funtionTable.set(funtionTable.size()-1,f);
-        now--;
         instructions.add(new Instruction(Operation.ret));
 
     }
@@ -359,10 +375,11 @@ public final class Analyser {
         if (check(TokenType.STRING_LITERAL))
         {
             FuntionEntry f = funtionTable.get(funtionTable.size()-1);
-            List<SymbolEntry> symlist = getnowsymboltable();
+            List<SymbolEntry> symlist = symbolTable;
             List<Instruction> instructions = getnowinstructions();
             SymbolEntry s = new SymbolEntry();
             s.setSysname(peek().getValueString());
+            s.setSymbolType(SymbolType.STRING);
             symlist.add(s);
             instructions.add(new Instruction(Operation.push,symlist.size()-1));
             expect(TokenType.STRING_LITERAL);
@@ -414,10 +431,10 @@ public final class Analyser {
                 if (isstandard(tokent.getValueString()))
                 {
                     FuntionEntry f = getstandardfun(tokent.getValueString());
-                    funtionTable.add(f);
+                    symaddfun(tokent.getValueString());
                     int returncount = f.getReturncount();
                     List<Instruction> instructions = getnowinstructions();
-                    int ind = instructions.size();
+                    int ind = gt.findsymbolindexbyname(tokent.getValueString());
                     instructions.add(new Instruction(Operation.stackalloc,returncount));
                     expect(TokenType.LParen);
                     if (!check(TokenType.RParen)) {

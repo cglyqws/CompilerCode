@@ -45,7 +45,11 @@ public class Data2Byte {
         bytes[3] = (byte) ((data & 0xff000000) >> 24);
         return bytes;
     }
-
+    public static byte[] getBytes3(int data) {
+        byte[] bytes = new byte[1];
+        bytes[0] = (byte) (data & 0xff);
+        return bytes;
+    }
     public static byte[] getBytes(long data) {
         byte[] bytes = new byte[8];
         bytes[0] = (byte) (data & 0xff);

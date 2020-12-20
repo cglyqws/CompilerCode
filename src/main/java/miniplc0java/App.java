@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import miniplc0java.analyser.Analyser;
+import miniplc0java.analyser.Output;
 import miniplc0java.error.CompileError;
 import miniplc0java.instruction.Instruction;
 import miniplc0java.tokenizer.StringIter;
@@ -38,7 +39,8 @@ public class App {
 
         var inputFileName = result.getString("input");
         var outputFileName = result.getString("output");
-//
+//        var inputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\in.txt";
+//		var outputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\out.txt";
 
         InputStream input;
         if (inputFileName.equals("-")) {
@@ -99,16 +101,14 @@ public class App {
             var analyzer = new Analyser(tokenizer);
             List<Instruction> instructions;
             try {
-                output.println(output);
+                analyzer.analyse();
+                Output.printfile(output);
             } catch (Exception e) {
                 // 遇到错误不输出，直接退出
                 System.err.println(e);
                 System.exit(-1);
                 return;
             }
-//            for (Instruction instruction : instructions) {
-//                output.println(instruction.toString());
-//            }
         } else {
             System.err.println("Please specify either '--analyse' or '--tokenize'.");
             System.exit(3);

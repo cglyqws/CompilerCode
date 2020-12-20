@@ -23,18 +23,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90564160-5767-4495-b5ee-218dc36d9e63" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Data2Byte.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/FuntionEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/GlobalTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/SymbolType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/in.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/SymbolEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/SymbolEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instruction/Instruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instruction/Instruction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instruction/Operation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instruction/Operation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/vm/MiniVm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/vm/MiniVm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Data2Byte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Data2Byte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/GlobalTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/GlobalTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/miniplc0java/MiniVmTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/miniplc0java/MiniVmTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,10 +105,16 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\大三上\大三上\编译原理\C0\CompilerCode" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\大三上\大三上\编译原理\C0\CompilerCode" />
     </key>
@@ -169,6 +172,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CompilerCode [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="CompilerCode [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -190,6 +212,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.CompilerCode [build]" />
         <item itemvalue="Application.Data2Byte" />
         <item itemvalue="Application.App" />
         <item itemvalue="Gradle.CompilerCode [jar]" />
@@ -225,7 +248,7 @@
       <workItem from="1608135289955" duration="1148000" />
       <workItem from="1608196736492" duration="557000" />
       <workItem from="1608365147288" duration="20122000" />
-      <workItem from="1608435030182" duration="6404000" />
+      <workItem from="1608435030182" duration="15069000" />
     </task>
     <servers />
   </component>
@@ -261,42 +284,42 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1608402995220" />
-    <state width="1877" height="290" key="GridCell.Tab.0.bottom" timestamp="1608439957765">
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom" timestamp="1608455574767">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="290" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608439957765" />
-    <state width="1877" height="290" key="GridCell.Tab.0.center" timestamp="1608439957765">
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608455574767" />
+    <state width="1877" height="274" key="GridCell.Tab.0.center" timestamp="1608455574767">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="290" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608439957765" />
-    <state width="1877" height="290" key="GridCell.Tab.0.left" timestamp="1608439957765">
+    <state width="1877" height="274" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608455574767" />
+    <state width="1877" height="274" key="GridCell.Tab.0.left" timestamp="1608455574767">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="290" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608439957765" />
-    <state width="1877" height="290" key="GridCell.Tab.0.right" timestamp="1608439957765">
+    <state width="1877" height="274" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608455574767" />
+    <state width="1877" height="274" key="GridCell.Tab.0.right" timestamp="1608455574767">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="290" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608439957765" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1608439569917">
+    <state width="1877" height="274" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608455574767" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1608454765656">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608439569917" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1608439569917">
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608454765656" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1608454765656">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608439569917" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1608439569917">
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608454765656" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1608454765656">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608439569917" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1608439569917">
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608454765656" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1608454765656">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608439569917" />
-    <state x="406" y="132" key="SettingsEditor" timestamp="1603959676465">
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608454765656" />
+    <state x="693" y="189" key="SettingsEditor" timestamp="1608442755900">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="406" y="132" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1603959676465" />
+    <state x="693" y="189" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1608442755900" />
     <state x="334" y="255" key="new project wizard" timestamp="1606977496810">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -305,21 +328,31 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1608135046319" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1608455129839">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1608455129839" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
+          <line>282</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java</url>
           <line>67</line>
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Remote">
+        <watch expression="symbolTable" language="JAVA" />
+        <watch expression="funtionTable" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

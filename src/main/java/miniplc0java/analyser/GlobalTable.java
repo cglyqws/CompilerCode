@@ -45,6 +45,18 @@ public class GlobalTable {
     private  ArrayList<SymbolEntry> symbolTable = new ArrayList<>();
     private ArrayList<FuntionEntry> funtionTable = new ArrayList<>();
 
+    public int findsymbolindexbyname (String name)
+    {
+        int len = symbolTable.size();
+        for (int i =0 ;i<len ;i++)
+        {
+            if (symbolTable.get(i).getSysname().equals(name))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
     public int findfuntionindexbyname (String name)
     {
         int len = funtionTable.size();
