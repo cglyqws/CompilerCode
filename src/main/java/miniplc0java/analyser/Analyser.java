@@ -489,6 +489,7 @@ public final class Analyser {
         {
             expect(TokenType.LParen);
             analyseexpr();
+            expect(TokenType.RParen);
         }
         else throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
         if (check(TokenType.AS_KW))
