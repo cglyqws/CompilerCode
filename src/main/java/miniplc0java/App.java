@@ -27,7 +27,8 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 
 public class App {
-    public static void main(String[] args) throws CompileError {
+    public static void main(String[] args) {
+
         var argparse = buildArgparse();
         Namespace result;
         try {
@@ -112,7 +113,7 @@ public class App {
             }
         } else {
             System.err.println("Please specify either '--analyse' or '--tokenize'.");
-            System.exit(3);
+            System.exit(1);
         }
     }
 

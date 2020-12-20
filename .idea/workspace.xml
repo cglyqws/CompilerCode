@@ -242,7 +242,7 @@
       <workItem from="1608135289955" duration="1148000" />
       <workItem from="1608196736492" duration="557000" />
       <workItem from="1608365147288" duration="20122000" />
-      <workItem from="1608435030182" duration="21561000" />
+      <workItem from="1608435030182" duration="23222000" />
     </task>
     <servers />
   </component>
@@ -337,7 +337,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/App.java</url>
-          <line>103</line>
+          <line>104</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
