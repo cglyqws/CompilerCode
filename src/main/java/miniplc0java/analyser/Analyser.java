@@ -31,7 +31,7 @@ public final class Analyser {
     /** 下一个变量的栈偏移 */
     int nextOffset = 0;
 
-    public Analyser(Tokenizer tokenizer) {
+    public Analyser(Tokenizer tokenizer){
         this.tokenizer = tokenizer;
         this.instructions = new ArrayList<>();
     }
@@ -41,7 +41,7 @@ public final class Analyser {
         analyseProgram();
     }
 
-    public List<Instruction> analyse() throws CompileError {
+    public List<Instruction> analyse() throws Exception {
         analyseProgram();
         return instructions;
     }
