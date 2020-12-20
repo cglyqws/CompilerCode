@@ -27,9 +27,10 @@ public class Output {
     {
 //        p.write(b);
         int size = b.length;
-        for (int i=size-1;i>=0;i--)
+        for (int i=0;i<size;i++)
         {
-            p.write(b[i]);
+//            p.write(b[i]);
+            p.print(he(b[i]));
         }
     }
     public static void printfile(PrintStream output)
@@ -43,6 +44,13 @@ public class Output {
 
         GlobalTable gt = GlobalTable.getGlobalTable();
         List<SymbolEntry> gsys = gt.getSymbolTable();
+//        SymbolEntry s = new SymbolEntry();
+//        s.setSysname("_start");
+//        s.setConstant(true);
+//        s.setSymbolType(SymbolType.FUNTION);
+//        gsys.add(s);
+//        FuntionEntry f =new FuntionEntry();
+//        f.setFuncname("_start");
         int glen = gsys.size();
         byte[] globalsyscount = Data2Byte.getBytes(glen);
         print(output,globalsyscount);

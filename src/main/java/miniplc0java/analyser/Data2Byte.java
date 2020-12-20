@@ -31,18 +31,18 @@ public class Data2Byte {
 
     public static byte[] getBytes(int data) {
         byte[] bytes = new byte[4];
-        bytes[0] = (byte) (data & 0xff);
-        bytes[1] = (byte) ((data & 0xff00) >> 8);
-        bytes[2] = (byte) ((data & 0xff0000) >> 16);
-        bytes[3] = (byte) ((data & 0xff000000) >> 24);
+        bytes[3] = (byte) (data & 0xff);
+        bytes[2] = (byte) ((data & 0xff00) >> 8);
+        bytes[1] = (byte) ((data & 0xff0000) >> 16);
+        bytes[0] = (byte) ((data & 0xff000000) >> 24);
         return bytes;
     }
     public static byte[] getBytes2(int data) {
         byte[] bytes = new byte[8];
-        bytes[0] = (byte) (data & 0xff);
-        bytes[1] = (byte) ((data & 0xff00) >> 8);
-        bytes[2] = (byte) ((data & 0xff0000) >> 16);
-        bytes[3] = (byte) ((data & 0xff000000) >> 24);
+        bytes[3] = (byte) (data & 0xff);
+        bytes[2] = (byte) ((data & 0xff00) >> 8);
+        bytes[1] = (byte) ((data & 0xff0000) >> 16);
+        bytes[0] = (byte) ((data & 0xff000000) >> 24);
         return bytes;
     }
     public static byte[] getBytes3(int data) {
@@ -78,12 +78,13 @@ public class Data2Byte {
         return data.getBytes(charset);
     }
 
-    public static byte[] getBytes(String data) {
-        return getBytes(data, "GBK");
-    }
+//    public static byte[] getBytes(String data) {
+//        return getBytes(data, "GBK");
+//    }
 
-    public byte[] String2bytes(String valueString) {
+    public static byte[] getBytes(String valueString) {
         byte temp[] = new byte[valueString.length()];
+        int len = valueString.length();
         for (int i = 0; i < valueString.length(); i++) {
             char c = valueString.charAt(i);
             temp[i] = (byte) (c & 0xff);
