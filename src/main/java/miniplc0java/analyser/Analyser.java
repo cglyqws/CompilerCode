@@ -12,25 +12,22 @@ import miniplc0java.tokenizer.TokenType;
 import miniplc0java.tokenizer.Tokenizer;
 import miniplc0java.util.Pos;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.*;
 
 public final class Analyser {
+
     private int level = 0;
     Tokenizer tokenizer;
-    ArrayList<Instruction> instructions;
-
+    int localvar=0;
     /** 当前偷看的 token */
     Token peekedToken = null;
 
-    /** 符号表 */
-    public HashMap<String, SymbolEntry> symbolTable = new HashMap<>();
-    ArrayList<String> symbol = new ArrayList<>();
-    int top = 0;
-    int [] index = new int[99999];
-    int processpoint = 0;
+    GlobalTable gt = GlobalTable.getGlobalTable();
+    ArrayList<FuntionEntry> funtionTable = gt.getFuntionTable();
+    ArrayList<Instruction> instructions = gt.getInstructions();
+    ArrayList<SymbolEntry> symbolTable = gt.getSymbolTable();
+
+    int now = -1;
     /** 下一个变量的栈偏移 */
     int nextOffset = 0;
 
@@ -49,6 +46,54 @@ public final class Analyser {
         return instructions;
     }
 
+    /**
+     * 在当前符号表中搜索
+     */
+    public SymbolEntry nowgetSymbol(String name )
+    {
+        List<SymbolEntry> l = getnowsymboltable();
+        for (int i=l.size()-1;i>=0;i--)
+        {
+            if (l.get(i).getSysname().equals(name))
+            {
+                return l.get(i);
+            }
+        }
+        return null;
+    }
+    /**
+     * 获取当前符号表
+     * @return
+     */
+    public List<SymbolEntry> getnowsymboltable()
+    {
+        if (now==-1)
+        {
+            return symbolTable;
+        }
+        else
+        {
+            FuntionEntry f = funtionTable.get(now);
+            return f.getSymbolTable();
+        }
+    }
+
+    /**
+     * 获取当前指令集
+     * @return
+     */
+    public List<Instruction> getnowinstructions()
+    {
+        if (now==-1)
+        {
+            return instructions;
+        }
+        else
+        {
+            FuntionEntry f = funtionTable.get(now);
+            return f.getInstructions();
+        }
+    }
     /**
      * 查看下一个 Token
      *
@@ -131,72 +176,72 @@ public final class Analyser {
         return this.nextOffset++;
     }
 
-    /**
-     * 添加一个符号
-     *
-     * @param name          名字
-     * @param isInitialized 是否已赋值
-     * @param isConstant    是否是常量
-     * @param curPos        当前 token 的位置（报错用）
-     * @throws AnalyzeError 如果重复定义了则抛异常
-     */
-    private void addSymbol(String name, boolean isInitialized,TokenType type, boolean isConstant, Pos curPos,int location) throws AnalyzeError {
-        if (this.symbolTable.get(name) != null) {
-            throw new AnalyzeError(ErrorCode.DuplicateDeclaration, curPos);
-        } else {
-            this.symbolTable.put(name, new SymbolEntry(isConstant, type,isInitialized, getNextVariableOffset(),location));
-        }
-    }
+//    /**
+//     * 添加一个符号
+//     *
+//     * @param name          名字
+//     * @param isInitialized 是否已赋值
+//     * @param isConstant    是否是常量
+//     * @param curPos        当前 token 的位置（报错用）
+//     * @throws AnalyzeError 如果重复定义了则抛异常
+//     */
+//    private void addSymbol(String name, boolean isInitialized,TokenType type, boolean isConstant, Pos curPos,int location) throws AnalyzeError {
+//        if (this.symbolTable.get(name) != null) {
+//            throw new AnalyzeError(ErrorCode.DuplicateDeclaration, curPos);
+//        } else {
+//            this.symbolTable.put(name, new SymbolEntry(isConstant, type,isInitialized, getNextVariableOffset(),location));
+//        }
+//    }
 
-    /**
-     * 设置符号为已赋值
-     *
-     * @param name   符号名称
-     * @param curPos 当前位置（报错用）
-     * @throws AnalyzeError 如果未定义则抛异常
-     */
-    private void initializeSymbol(String name, Pos curPos) throws AnalyzeError {
-        var entry = this.symbolTable.get(name);
-        if (entry == null) {
-            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
-        } else {
-            entry.setInitialized(true);
-        }
-    }
+//    /**
+//     * 设置符号为已赋值
+//     *
+//     * @param name   符号名称
+//     * @param curPos 当前位置（报错用）
+//     * @throws AnalyzeError 如果未定义则抛异常
+//     */
+//    private void initializeSymbol(String name, Pos curPos) throws AnalyzeError {
+//        var entry = this.symbolTable.get(name);
+//        if (entry == null) {
+//            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
+//        } else {
+//            entry.setInitialized(true);
+//        }
+//    }
 
-    /**
-     * 获取变量在栈上的偏移
-     *
-     * @param name   符号名
-     * @param curPos 当前位置（报错用）
-     * @return 栈偏移
-     * @throws AnalyzeError
-     */
-    private int getOffset(String name, Pos curPos) throws AnalyzeError {
-        var entry = this.symbolTable.get(name);
-        if (entry == null) {
-            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
-        } else {
-            return entry.getStackOffset();
-        }
-    }
+//    /**
+//     * 获取变量在栈上的偏移
+//     *
+//     * @param name   符号名
+//     * @param curPos 当前位置（报错用）
+//     * @return 栈偏移
+//     * @throws AnalyzeError
+//     */
+//    private int getOffset(String name, Pos curPos) throws AnalyzeError {
+//        var entry = this.symbolTable.get(name);
+//        if (entry == null) {
+//            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
+//        } else {
+//            return entry.getStackOffset();
+//        }
+//    }
 
-    /**
-     * 获取变量是否是常量
-     *
-     * @param name   符号名
-     * @param curPos 当前位置（报错用）
-     * @return 是否为常量
-     * @throws AnalyzeError
-     */
-    private boolean isConstant(String name, Pos curPos) throws AnalyzeError {
-        var entry = this.symbolTable.get(name);
-        if (entry == null) {
-            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
-        } else {
-            return entry.isConstant();
-        }
-    }
+//    /**
+//     * 获取变量是否是常量
+//     *
+//     * @param name   符号名
+//     * @param curPos 当前位置（报错用）
+//     * @return 是否为常量
+//     * @throws AnalyzeError
+//     */
+//    private boolean isConstant(String name, Pos curPos) throws AnalyzeError {
+//        var entry = this.symbolTable.get(name);
+//        if (entry == null) {
+//            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
+//        } else {
+//            return entry.isConstant();
+//        }
+//    }
 
     private void analyseProgram() throws CompileError {
         // 程序 -> 'begin' 主过程 'end'
@@ -208,37 +253,9 @@ public final class Analyser {
             {
                 analysefn();
             }
-            else analysedecl_stmt();//这个还没写
+            else analysedecl_stmt();
         }
 
-        String outputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\out.txt";
-        PrintStream output;
-        if (outputFileName.equals("-")) {
-            output = System.out;
-        } else {
-            try {
-                output = new PrintStream(new FileOutputStream(outputFileName));
-            } catch (FileNotFoundException e) {
-                System.err.println("Cannot open output file.");
-                e.printStackTrace();
-                System.exit(3);
-                return;
-            }
-        }
-        for (Instruction in :instructions)
-        {
-            switch(in.getOpt())
-            {
-                case LIT:
-                    output.println("LocA("+String.valueOf(in.getX()-1)+")");
-
-            }
-
-        }
-        for(String key: symbolTable.keySet())
-        {
-            output.println("Key: "+key+" Value: "+ symbolTable.get(key));
-        }
         return ;
 
     }
@@ -249,26 +266,50 @@ public final class Analyser {
      */
     private void analysefn() throws  CompileError
     {
+        int param = 0;
         expect(TokenType.FN_KW);
-        expect(TokenType.Ident);
+        var token1 = expect(TokenType.Ident);
+        FuntionEntry f = new FuntionEntry();
+        f.setFuncname(token1.getValueString());
+        funtionTable.add(f);
         expect(TokenType.LParen);
         if (check(TokenType.RParen))
         {
             expect(TokenType.RParen);
         }
         else {
-            analyseparamlist();
+            param = analyseparamlist();
         }
 
         expect(TokenType.Arrow);
-        analysety();
+        var token = analysety();
+        f = funtionTable.get(funtionTable.size()-1);
+        f.setParam(param);
+
+        if (token.getValueString().equals("void"))
+        {
+            f.setReturncount(0);
+        }
+        else
+        {
+            f.setReturncount(1);
+        }
+        f.setFuncname(token1.getValueString());
+        now++;
+        funtionTable.set(funtionTable.size()-1,f);
+        localvar = 0;
         analyseblockstmt();
+        f = funtionTable.get(funtionTable.size()-1);
+        f.setLocalvar(localvar);
+        funtionTable.set(funtionTable.size()-1,f);
+        now--;
+        instructions.add(new Instruction(Operation.ret));
 
     }
     private void analyseblockstmt() throws CompileError
     {
         expect(TokenType.LBParen);
-        index[processpoint++] = top;
+
         while (!check(TokenType.RBParen))
         {
             analysestmt();
@@ -312,14 +353,27 @@ public final class Analyser {
         expect(TokenType.Semicolon);
 
     }
-    private void analysepcallparamlist() throws  CompileError
+    private int analysepcallparamlist() throws  CompileError
     {
-        analyseexpr();
+        int count = 1;
+        if (check(TokenType.STRING_LITERAL))
+        {
+            FuntionEntry f = funtionTable.get(funtionTable.size()-1);
+            List<SymbolEntry> symlist = getnowsymboltable();
+            List<Instruction> instructions = getnowinstructions();
+            SymbolEntry s = new SymbolEntry();
+            s.setSysname(peek().getValueString());
+            symlist.add(s);
+            instructions.add(new Instruction(Operation.push,symlist.size()-1));
+            expect(TokenType.STRING_LITERAL);
+        }
         while(check(TokenType.Comma))
         {
             expect(TokenType.Comma);
             analyseexpr();
+            count ++;
         }
+        return count;
     }
     public boolean isop() throws CompileError
     {
@@ -344,21 +398,56 @@ public final class Analyser {
         var token = peek();
         if (check(TokenType.Ident))
         {
-            expect(TokenType.Ident);
+            var tokent = expect(TokenType.Ident);
+            //赋值语句
             if (check(TokenType.Equal))
             {
                 expect(TokenType.Equal);
                 analyseexpr();
             }
+
+            //函数调用
             else if (check(TokenType.LParen))
             {
-                expect(TokenType.LParen);
-                if (!check(TokenType.RParen))
+                //判断函数是否存在、是否为标准库函数。
+
+                if (isstandard(tokent.getValueString()))
                 {
-                    analysepcallparamlist();
+                    FuntionEntry f = getstandardfun(tokent.getValueString());
+                    funtionTable.add(f);
+                    int returncount = f.getReturncount();
+                    List<Instruction> instructions = getnowinstructions();
+                    int ind = instructions.size();
+                    instructions.add(new Instruction(Operation.stackalloc,returncount));
+                    expect(TokenType.LParen);
+                    if (!check(TokenType.RParen)) {
+                        analysepcallparamlist();//参数压栈
+                    }
+                    expect(TokenType.RParen);
+                    instructions.add(new Instruction(Operation.callname,ind));
                 }
-                expect(TokenType.RParen);
+                else {
+                    var fun = gt.findfuntionbyname(tokent.getValueString());
+                    if (fun==null)
+                    {
+                        throw new AnalyzeError(ErrorCode.NotDeclared,tokent.getStartPos());
+                    }
+                    else {
+                        int returncount = fun.getReturncount();
+                        instructions.add(new Instruction(Operation.stackalloc,returncount));
+                        expect(TokenType.LParen);
+                        if (!check(TokenType.RParen)) {
+                            analysepcallparamlist();//参数压栈
+                        }
+                        expect(TokenType.RParen);
+                        int ind = gt.findfuntionindexbyname(tokent.getValueString());
+                        instructions.add(new Instruction(Operation.call,ind));
+                    }
+                }
+
+
             }
+            //
             else if (!check(TokenType.AS_KW)&&!isop())
             {
                 return ;
@@ -451,6 +540,10 @@ public final class Analyser {
         expect(TokenType.Semicolon);
     }
 
+    /**
+     * 最复杂的部分
+     * @throws CompileError
+     */
     private void analysestmt() throws CompileError
     {
         var token = peek();
@@ -504,16 +597,21 @@ public final class Analyser {
     }
     /**
      *
+     * @return
      */
-    private void analyseparamlist() throws CompileError
+    private int analyseparamlist() throws CompileError
     {
+        int count = 1;
         analyseparam();
         while (check(TokenType.Comma))
         {
             expect(TokenType.Comma);
             analyseparam();
+            count++;
         }
         expect(TokenType.RParen);
+
+        return count;
     }
     private void analyseparam() throws  CompileError
     {
@@ -524,6 +622,15 @@ public final class Analyser {
         var token = expect(TokenType.Ident);
         expect(TokenType.Collon);
         var token2 = expect(TokenType.Ident);
+        List<SymbolEntry> symlist = getnowsymboltable();
+        SymbolEntry sym = new SymbolEntry();
+        sym.setSymbolType(SymbolType.PARAM);
+        sym.setSysname(token.getValueString());
+        sym.setType(token2.getTokenType());
+        sym.setInitialized(true);
+        sym.setConstant(false);
+        sym.setLevel(now);
+        symlist.add(sym);
         if (token2.getValue().equals("int"))
         {
 
@@ -566,64 +673,49 @@ public final class Analyser {
             var token2 = analysety();
             if (check(TokenType.Equal))
             {
-                var sys = symbolTable.get(token.getValueString());
+                List<SymbolEntry> nowsymboltable = getnowsymboltable();
+                var sys = nowgetSymbol(token.getValueString());
+                int off = nowsymboltable.size();
                 if (sys==null)
                 {
-                    addSymbol(token.getValueString(), true,token2.getTokenType(), false, token.getStartPos(),top-index[processpoint-1]);
-                    symbol.add(token.getValueString());
-                    top++;
+                    SymbolEntry s = new SymbolEntry();
+                    s.setConstant(false);
+                    s.setLevel(now);
+                    s.setSysname(token.getValueString());
+                    s.setInitialized(true);
+                    s.setType(token2.getTokenType());
+
+                    nowsymboltable.add(s);
                 }
                 else {
-                    int flag = 0;
-                    for (int i=top-1;i>=0;i--)
-                    {
-                        if (symbol.get(i).equals(token.getValueString())){
-                            flag = i;
-                            break;
-                        }
-                    }
-                    if (flag < processpoint)
-                    {
-                        addSymbol(token.getValueString(), true,token2.getTokenType(), false, token.getStartPos(),top-index[processpoint-1]);
-                        symbol.add(token.getValueString());
-                        top++;
-                    }
-                    else throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
+                    throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
-                instructions.add(new Instruction(Operation.LIT,top-index[processpoint]));
+                instructions.add(new Instruction(Operation.loca,off));
                 expect(TokenType.Equal);
                 analyseexpr();
                 expect(TokenType.Semicolon);
 
             }
             else {
-                var sys = symbolTable.get(token.getValueString());
+                List<SymbolEntry> nowsymboltable = getnowsymboltable();
+                var sys = nowgetSymbol(token.getValueString());
+                int off = nowsymboltable.size();
                 if (sys==null)
                 {
-                    symbol.add(token.getValueString());
-                    top++;
-                    addSymbol(token.getValueString(), false,token2.getTokenType(), false, token.getStartPos(),top-index[processpoint-1]);
+                    SymbolEntry s = new SymbolEntry();
+                    s.setConstant(false);
+                    s.setLevel(now);
+                    s.setSysname(token.getValueString());
+                    s.setInitialized(false);
+                    s.setType(token2.getTokenType());
+
+                    nowsymboltable.add(s);
                 }
                 else {
-                    int flag = 0;
-                    for (int i=top-1;i>=0;i--)
-                    {
-                        if (symbol.get(i).equals(token.getValueString())){
-                            flag = i;
-                            break;
-                        }
-                    }
-                    if (flag < processpoint)
-                    {
-                        addSymbol(token.getValueString(), false,token2.getTokenType(), false, token.getStartPos(),top-index[processpoint]);
-                        symbol.add(token.getValueString());
-                        top++;
-                        instructions.add(new Instruction(Operation.LIT,top-index[processpoint]));
-                    }
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
+                instructions.add(new Instruction(Operation.loca,off));
                 expect(TokenType.Semicolon);
-                instructions.add(new Instruction(Operation.LIT,top-index[processpoint]));
             }
         }
         else if (check(TokenType.CONST_KW))
@@ -633,11 +725,26 @@ public final class Analyser {
             var token = expect(TokenType.Ident);
             expect(TokenType.Collon);
             var token2 = analysety();
+
+            List<SymbolEntry> nowsymboltable = getnowsymboltable();
+            var sys = nowgetSymbol(token.getValueString());
+            int off = nowsymboltable.size();
+            if (sys==null)
+            {
+                SymbolEntry s = new SymbolEntry();
+                s.setConstant(true);
+                s.setLevel(now);
+                s.setSysname(token.getValueString());
+                s.setInitialized(true);
+                s.setType(token2.getTokenType());
+
+                nowsymboltable.add(s);
+            }
+            else {
+                throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
+            }
+            instructions.add(new Instruction(Operation.loca,off));
             expect(TokenType.Equal);
-            symbol.add(token.getValueString());
-            top++;
-            addSymbol(token.getValueString(),true,token2.getTokenType(),true,token.getStartPos(),top-processpoint);
-            instructions.add(new Instruction(Operation.LIT,top-index[processpoint]));
             analyseexpr();
             expect(TokenType.Semicolon);
 
@@ -911,4 +1018,93 @@ public final class Analyser {
 //        }
 //
 //    }
+    public boolean isstandard(String f)
+    {
+        switch (f)
+        {
+            case "getint":
+                return true;
+            case "getdouble":
+                return true;
+            case "getchar":
+                return true;
+            case "putint":
+                return true;
+            case "putdouble":
+                return true;
+            case "putchar":
+                return true;
+            case "putstr":
+                return true;
+            case "putln":
+                return true;
+            default:
+                return false;
+        }
+    }
+    public FuntionEntry getstandardfun(String f)
+    {
+        FuntionEntry fun = new FuntionEntry();
+        switch (f)
+        {
+            case "getint":
+                fun.setParam(1);
+                fun.setLocalvar(0);
+                fun.setFuncname("getint");
+                fun.setReturncount(0);
+                return fun;
+            case "getdouble":
+                fun.setParam(1);
+                fun.setLocalvar(0);
+                fun.setFuncname("getdouble");
+                fun.setReturncount(0);
+                return fun;
+            case "getchar":
+                fun.setParam(1);
+                fun.setLocalvar(0);
+                fun.setFuncname("getchar");
+                fun.setReturncount(0);
+                return fun;
+            case "putint":
+                fun.setParam(0);
+                fun.setLocalvar(0);
+                fun.setFuncname("putint");
+                fun.setReturncount(0);
+                return fun;
+            case "putdouble":
+                fun.setParam(0);
+                fun.setLocalvar(0);
+                fun.setFuncname("putdouble");
+                fun.setReturncount(0);
+                return fun;
+            case "putchar":
+                fun.setParam(0);
+                fun.setLocalvar(0);
+                fun.setFuncname("putchar");
+                fun.setReturncount(0);
+                return fun;
+            case "putstr":
+                fun.setParam(0);
+                fun.setLocalvar(0);
+                fun.setFuncname("putstr");
+                fun.setReturncount(0);
+                return fun;
+            case "putln":
+                fun.setParam(0);
+                fun.setLocalvar(0);
+                fun.setFuncname("putln");
+                fun.setReturncount(0);
+                return fun;
+            default:
+                return null;
+        }
+    }
+    public void callhandle(Token token)
+    {
+        String funname = token.getValueString();
+        if (funname.equals("putstr"))
+        {
+
+        }
+    }
 }

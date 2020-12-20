@@ -39,8 +39,7 @@ public class App {
         var inputFileName = result.getString("input");
         var outputFileName = result.getString("output");
 //
-//        var inputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\in.txt";
-//        var outputFileName = "E:\\大三上\\大三上\\编译原理\\Code\\src\\main\\java\\miniplc0java\\out.txt";
+
         InputStream input;
         if (inputFileName.equals("-")) {
             input = System.in;
@@ -71,79 +70,49 @@ public class App {
 
         Scanner scanner;
         scanner = new Scanner(input);
-        while (scanner.hasNextLine())
-        {
-            System.out.println(scanner.nextLine());
-        }
-
         var iter = new StringIter(scanner);
         var tokenizer = tokenize(iter);
 
 
-        var tokens = new ArrayList<Token>();
-        try {
-            while (true) {
-                var token = tokenizer.nextToken();
-                if (token.getTokenType().equals(TokenType.EOF)) {
-                    break;
+        if (result.getBoolean("tokenize")) {
+            // tokenize
+            var tokens = new ArrayList<Token>();
+            try {
+                while (true) {
+                    var token = tokenizer.nextToken();
+                    if (token.getTokenType().equals(TokenType.EOF)) {
+                        break;
+                    }
+                    tokens.add(token);
                 }
-                tokens.add(token);
+            } catch (Exception e) {
+                // 遇到错误不输出，直接退出
+                System.err.println(e);
+                System.exit(-1);
+                return;
             }
-        } catch (Exception e) {
-            // 遇到错误不输出，直接退出
-            System.err.println(e);
-            System.exit(0);
-            return;
-        }
-        for (Token token : tokens) {
-            output.println(token.toString());
-        }
-
-
-
-
-        var analyzer = new Analyser(tokenizer);
-        analyzer.test();
-
-//        if (result.getBoolean("tokenize")) {
-//            // tokenize
-//            var tokens = new ArrayList<Token>();
-//            try {
-//                while (true) {
-//                    var token = tokenizer.nextToken();
-//                    if (token.getTokenType().equals(TokenType.EOF)) {
-//                        break;
-//                    }
-//                    tokens.add(token);
-//                }
-//            } catch (Exception e) {
-//                // 遇到错误不输出，直接退出
-//                System.err.println(e);
-//                System.exit(0);
-//                return;
-//            }
-//            for (Token token : tokens) {
-//                output.println(token.toString());
-//            }
-//        } else if (result.getBoolean("analyse")) {
-//            // analyze
-//            var analyzer = new Analyser(tokenizer);
-//            List<Instruction> instructions;
-//            try {
-//                instructions = analyzer.analyse();
-//            } catch (Exception e) {
-//                // 遇到错误不输出，直接退出
-//                System.err.println(e);
-//                System.exit(0);
-//                return;
-//            }
+            for (Token token : tokens) {
+                output.println(token.toString());
+            }
+        } else if (result.getBoolean("analyse")) {
+            // analyze
+            var analyzer = new Analyser(tokenizer);
+            List<Instruction> instructions;
+            try {
+                output.println(output);
+            } catch (Exception e) {
+                // 遇到错误不输出，直接退出
+                System.err.println(e);
+                System.exit(-1);
+                return;
+            }
 //            for (Instruction instruction : instructions) {
 //                output.println(instruction.toString());
 //            }
-//        } else {
-//            System.err.println("Please specify either '--analyse' or '--tokenize'.");
-//            System.exit(3);
-//        }
+        } else {
+            System.err.println("Please specify either '--analyse' or '--tokenize'.");
+            System.exit(3);
+        }
     }
 
     private static ArgumentParser buildArgparse() {

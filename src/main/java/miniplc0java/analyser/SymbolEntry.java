@@ -8,6 +8,54 @@ public class SymbolEntry {
     TokenType type;
     int stackOffset;
     int location;
+    int level;
+    String sysname;
+
+    public SymbolEntry()
+    {
+
+    }
+    public SymbolType getSymbolType() {
+        return symbolType;
+    }
+
+    public void setSymbolType(SymbolType symbolType) {
+        this.symbolType = symbolType;
+    }
+
+    SymbolType symbolType;
+    public TokenType getType() {
+        return type;
+    }
+
+    public void setType(TokenType type) {
+        this.type = type;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getSysname() {
+        return sysname;
+    }
+
+    public void setSysname(String sysname) {
+        this.sysname = sysname;
+    }
+
     /**
      * @param isConstant
      * @param isDeclared
