@@ -372,18 +372,7 @@ public final class Analyser {
     private int analysepcallparamlist() throws  CompileError
     {
         int count = 1;
-        if (check(TokenType.STRING_LITERAL))
-        {
-            FuntionEntry f = funtionTable.get(funtionTable.size()-1);
-            List<SymbolEntry> symlist = symbolTable;
-            List<Instruction> instructions = getnowinstructions();
-            SymbolEntry s = new SymbolEntry();
-            s.setSysname(peek().getValueString());
-            s.setSymbolType(SymbolType.STRING);
-            symlist.add(s);
-            instructions.add(new Instruction(Operation.push,symlist.size()-1));
-            expect(TokenType.STRING_LITERAL);
-        }
+        analyseexpr();
         while(check(TokenType.Comma))
         {
             expect(TokenType.Comma);
@@ -486,6 +475,14 @@ public final class Analyser {
         }
         else if (check(TokenType.STRING_LITERAL))
         {
+            FuntionEntry f = funtionTable.get(funtionTable.size()-1);
+            List<SymbolEntry> symlist = symbolTable;
+            List<Instruction> instructions = getnowinstructions();
+            SymbolEntry s = new SymbolEntry();
+            s.setSysname(peek().getValueString());
+            s.setSymbolType(SymbolType.STRING);
+            symlist.add(s);
+            instructions.add(new Instruction(Operation.push,symlist.size()-1));
             expect(TokenType.STRING_LITERAL);
         }
         else if (check(TokenType.LParen))
