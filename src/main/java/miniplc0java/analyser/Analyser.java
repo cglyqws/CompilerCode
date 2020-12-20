@@ -561,7 +561,7 @@ public final class Analyser {
      */
     private void analysestmt() throws CompileError
     {
-        var token = peek();
+         var token = peek();
         if (check(TokenType.LET_KW) || check (TokenType.CONST_KW))
         {
             analysedecl_stmt();
@@ -686,6 +686,12 @@ public final class Analyser {
             var token = expect(TokenType.Ident);
             expect(TokenType.Collon);
             var token2 = analysety();
+
+            if (token2.getValueString().equals("void"))
+            {
+                throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token2.getStartPos());
+            }
+
             if (check(TokenType.Equal))
             {
                 List<SymbolEntry> nowsymboltable = getnowsymboltable();
@@ -740,6 +746,11 @@ public final class Analyser {
             var token = expect(TokenType.Ident);
             expect(TokenType.Collon);
             var token2 = analysety();
+
+            if (token2.getValueString().equals("void"))
+            {
+                throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token2.getStartPos());
+            }
 
             List<SymbolEntry> nowsymboltable = getnowsymboltable();
             var sys = nowgetSymbol(token.getValueString());
