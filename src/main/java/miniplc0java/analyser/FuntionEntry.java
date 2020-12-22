@@ -50,8 +50,17 @@ public class FuntionEntry {
     public void setSymbolTable(List<SymbolEntry> symbolTable) {
         this.symbolTable = symbolTable;
     }
+    public FuntionEntry()
+    {
 
+    }
 
+    public FuntionEntry(String funcname,int returncount,int param,int localvar)
+    {
+        this.setFuncname(funcname);
+        this.setReturncount(returncount);
+        this.setLocalvar(localvar);
+    }
     @Override
     public String toString() {
         return "FuntionEntry{" +

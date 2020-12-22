@@ -15,6 +15,13 @@ public class SymbolEntry {
     {
 
     }
+
+    public SymbolEntry(String name,boolean isConstant,SymbolType symbolType)
+    {
+        this.setSymbolType(symbolType);
+        this.setSysname(name);
+        this.setConstant(isConstant);
+    }
     public SymbolType getSymbolType() {
         return symbolType;
     }

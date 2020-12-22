@@ -26,6 +26,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/FuntionEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/FuntionEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/SymbolEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/SymbolEntry.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +99,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/新建文件夹 (7)/samshui-C0" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
@@ -149,19 +151,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -243,6 +232,8 @@
       <workItem from="1608196736492" duration="557000" />
       <workItem from="1608365147288" duration="20122000" />
       <workItem from="1608435030182" duration="27679000" />
+      <workItem from="1608477510109" duration="581000" />
+      <workItem from="1608614755435" duration="3005000" />
     </task>
     <servers />
   </component>
@@ -274,42 +265,42 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608437403156" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1608402995220">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1608615415246">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1608402995220" />
-    <state width="1877" height="366" key="GridCell.Tab.0.bottom" timestamp="1608474486126">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1608615415246" />
+    <state width="1877" height="259" key="GridCell.Tab.0.bottom" timestamp="1608617127214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
-    <state width="1877" height="366" key="GridCell.Tab.0.center" timestamp="1608474486126">
+    <state width="1877" height="259" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608617127214" />
+    <state width="1877" height="259" key="GridCell.Tab.0.center" timestamp="1608617127213">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
-    <state width="1877" height="366" key="GridCell.Tab.0.left" timestamp="1608474486126">
+    <state width="1877" height="259" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608617127213" />
+    <state width="1877" height="259" key="GridCell.Tab.0.left" timestamp="1608617127213">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
-    <state width="1877" height="366" key="GridCell.Tab.0.right" timestamp="1608474486126">
+    <state width="1877" height="259" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608617127213" />
+    <state width="1877" height="259" key="GridCell.Tab.0.right" timestamp="1608617127213">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
-    <state width="1877" height="366" key="GridCell.Tab.1.bottom" timestamp="1608474486126">
+    <state width="1877" height="259" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608617127213" />
+    <state width="1877" height="366" key="GridCell.Tab.1.bottom" timestamp="1608615957077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
-    <state width="1877" height="366" key="GridCell.Tab.1.center" timestamp="1608474486126">
+    <state width="1877" height="366" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1608615957077" />
+    <state width="1877" height="366" key="GridCell.Tab.1.center" timestamp="1608615957077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
-    <state width="1877" height="366" key="GridCell.Tab.1.left" timestamp="1608474486126">
+    <state width="1877" height="366" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1608615957077" />
+    <state width="1877" height="366" key="GridCell.Tab.1.left" timestamp="1608615957077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
-    <state width="1877" height="366" key="GridCell.Tab.1.right" timestamp="1608474486126">
+    <state width="1877" height="366" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1608615957077" />
+    <state width="1877" height="366" key="GridCell.Tab.1.right" timestamp="1608615957077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="366" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608474486126" />
+    <state width="1877" height="366" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1608615957077" />
     <state x="693" y="189" key="SettingsEditor" timestamp="1608442755900">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -339,6 +330,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/App.java</url>
           <line>104</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
+          <line>291</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

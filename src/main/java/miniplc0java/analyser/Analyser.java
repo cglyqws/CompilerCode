@@ -27,6 +27,8 @@ public final class Analyser {
     ArrayList<Instruction> instructions = gt.getInstructions();
     ArrayList<SymbolEntry> symbolTable = gt.getSymbolTable();
 
+
+
     int now = -1;
     /** 下一个变量的栈偏移 */
     int nextOffset = 0;
@@ -257,10 +259,37 @@ public final class Analyser {
 //        }
 //    }
 
+    public void initsymboltable(ArrayList<SymbolEntry> f)
+    {
+        f.add(new SymbolEntry("_start",true,SymbolType.FUNTION));
+        f.add(getstandardsym("getint"));
+        f.add(getstandardsym("getdouble"));
+        f.add(getstandardsym("getchar"));
+        f.add(getstandardsym("putint"));
+        f.add(getstandardsym("putdouble"));
+        f.add(getstandardsym("putstr"));
+        f.add(getstandardsym("putchar"));
+        f.add(getstandardsym("putln"));
+
+    }
+    public void addstart()
+    {
+        FuntionEntry fun = new FuntionEntry();
+        fun.setLocalvar(0);
+        fun.setReturncount(0);
+        fun.setFuncname("_start");
+        fun.setParam(0);
+        ArrayList<Instruction> list =new ArrayList<>();
+        list.add(new Instruction(Operation.stackalloc,0));
+        list.add(new Instruction(Operation.call, gt.findfuntionindexbyname("main")));
+        fun.setInstructions(list);
+        gt.getFuntionTable().add(fun);
+    }
     private void analyseProgram() throws CompileError {
         // 程序 -> 'begin' 主过程 'end'
         // 示例函数，示例如何调用子程序
         // 'begin'
+        initsymboltable(gt.getSymbolTable());
         while (!check(TokenType.EOF))
         {
             if (check(TokenType.FN_KW))
@@ -269,7 +298,7 @@ public final class Analyser {
             }
             else analysedecl_stmt();
         }
-
+        addstart();
         return ;
 
     }
@@ -318,9 +347,8 @@ public final class Analyser {
         now--;
         f = funtionTable.get(funtionTable.size()-1);
         f.setLocalvar(localvar);
+        f.getInstructions().add(new Instruction(Operation.ret));
         funtionTable.set(funtionTable.size()-1,f);
-        instructions.add(new Instruction(Operation.ret));
-
     }
     private void analyseblockstmt() throws CompileError
     {
@@ -420,7 +448,6 @@ public final class Analyser {
                 if (isstandard(tokent.getValueString()))
                 {
                     FuntionEntry f = getstandardfun(tokent.getValueString());
-                    symaddfun(tokent.getValueString());
                     int returncount = f.getReturncount();
                     List<Instruction> instructions = getnowinstructions();
                     int ind = gt.findsymbolindexbyname(tokent.getValueString());
@@ -1120,6 +1147,55 @@ public final class Analyser {
                 fun.setLocalvar(0);
                 fun.setFuncname("putln");
                 fun.setReturncount(0);
+                return fun;
+            default:
+                return null;
+        }
+    }
+    public SymbolEntry getstandardsym(String f)
+    {
+        SymbolEntry fun = new SymbolEntry();
+        switch (f)
+        {
+            case "getint":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
+                return fun;
+            case "getdouble":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
+                return fun;
+            case "getchar":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
+                return fun;
+            case "putint":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
+                return fun;
+            case "putdouble":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
+                return fun;
+            case "putchar":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
+                return fun;
+            case "putstr":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
+                return fun;
+            case "putln":
+                fun.setSysname(f);
+                fun.setSymbolType(SymbolType.FUNTION);
+                fun.setConstant(true);
                 return fun;
             default:
                 return null;
