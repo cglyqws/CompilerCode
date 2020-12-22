@@ -29,8 +29,8 @@ public class Output {
         int size = b.length;
         for (int i=0;i<size;i++)
         {
-//            p.write(b[i]);
-            p.print(he(b[i]));
+            p.write(b[i]);
+//            p.print(he(b[i]));
         }
     }
     public static void printfile(PrintStream output)
