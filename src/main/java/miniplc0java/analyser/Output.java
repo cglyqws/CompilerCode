@@ -28,7 +28,7 @@ public class Output {
 //        p.write(b);
         int size = b.length;
         for (int i = 0; i < size; i++) {
-            p.print(b[i]);
+            p.print(he(b[i]));
         }
     }
 
@@ -76,7 +76,7 @@ public class Output {
             for (int i = 0; i < funsize; i++) {
                 FuntionEntry fun = funtiontable.get(i);
                 int nameloca = gt.findfuntionindexbyname(fun.getFuncname());
-                print(output,Data2Byte.getBytes(nameloca));
+                print(output,Data2Byte.getBytes(nameloca+1));
                 int returncount = fun.getReturncount();
                 print(output,Data2Byte.getBytes(returncount));
 

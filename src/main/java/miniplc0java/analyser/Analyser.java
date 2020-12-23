@@ -290,6 +290,11 @@ public final class Analyser {
         // 示例函数，示例如何调用子程序
         // 'begin'
         initsymboltable(gt.getSymbolTable());
+
+        FuntionEntry f = new FuntionEntry();
+        f.setFuncname("_start");
+        funtionTable.add(f);
+
         while (!check(TokenType.EOF))
         {
             if (check(TokenType.FN_KW))
@@ -298,7 +303,7 @@ public final class Analyser {
             }
             else analysedecl_stmt();
         }
-        addstart();
+
         return ;
 
     }
@@ -317,6 +322,12 @@ public final class Analyser {
 
         symaddfun(token1.getValueString());
         funtionTable.add(f);
+        if (token1.getValueString().equals("main"))
+        {
+            FuntionEntry func = funtionTable.get(0);
+            func.getInstructions().add(new Instruction(Operation.stackalloc,0));
+            func.getInstructions().add(new Instruction(Operation.call,funtionTable.size()-1));
+        }
         expect(TokenType.LParen);
         if (check(TokenType.RParen))
         {
