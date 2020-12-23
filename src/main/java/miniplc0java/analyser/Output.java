@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Output {
@@ -23,20 +24,19 @@ public class Output {
     }
 
 
-    public static void print(PrintStream p,byte[] b)
-    {
+    public static void print(PrintStream p,byte[] b) {
 //        p.write(b);
         int size = b.length;
-        for (int i=0;i<size;i++)
-        {
-            p.write(b[i]);
-//            p.print(he(b[i]));
+        for (int i = 0; i < size; i++) {
+            p.print(he(b[i]));
         }
     }
+
     public static void printfile(PrintStream output)
     {
-
+        List<Byte> outputbytes = new ArrayList<>();
         byte[] temp = Data2Byte.getBytes(magic);
+
         print(output,temp);
         temp = Data2Byte.getBytes(version);
         print(output,temp);
