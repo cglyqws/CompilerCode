@@ -28,7 +28,7 @@ public class Output {
 //        p.write(b);
         int size = b.length;
         for (int i = 0; i < size; i++) {
-            p.print(he(b[i]));
+            p.print(b[i]);
         }
     }
 
