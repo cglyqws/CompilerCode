@@ -104,12 +104,10 @@ public class App {
             try {
                 analyzer.analyse();
                 Output.printfile(output);
-                System.exit(0);
             } catch (Exception e) {
                 // 遇到错误不输出，直接退出
                 System.err.println(e);
-                System.exit(1);
-
+                System.exit(2);
             }
         } else {
             System.err.println("Please specify either '--analyse' or '--tokenize'.");

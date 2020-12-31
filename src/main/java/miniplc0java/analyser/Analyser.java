@@ -272,19 +272,7 @@ public final class Analyser {
         f.add(getstandardsym("putln"));
 
     }
-    public void addstart()
-    {
-        FuntionEntry fun = new FuntionEntry();
-        fun.setLocalvar(0);
-        fun.setReturncount(0);
-        fun.setFuncname("_start");
-        fun.setParam(0);
-        ArrayList<Instruction> list =new ArrayList<>();
-        list.add(new Instruction(Operation.stackalloc,0));
-        list.add(new Instruction(Operation.call, gt.findfuntionindexbyname("main")));
-        fun.setInstructions(list);
-        gt.getFuntionTable().add(fun);
-    }
+
     private void analyseProgram() throws CompileError {
         // 程序 -> 'begin' 主过程 'end'
         // 示例函数，示例如何调用子程序
@@ -404,8 +392,15 @@ public final class Analyser {
     {
         expect(TokenType.RETURN_KW);
 //        var value = analyseexpr();
-        analyseexpr();
-        expect(TokenType.Semicolon);
+        if (check(TokenType.Semicolon))
+        {
+            expect(TokenType.Semicolon);
+        }
+        else {
+            analyseexpr();
+            expect(TokenType.Semicolon);
+        }
+
 
     }
     private int analysepcallparamlist() throws  CompileError
@@ -529,6 +524,7 @@ public final class Analyser {
             analyseexpr();
             expect(TokenType.RParen);
         }
+
         else throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
         if (check(TokenType.AS_KW))
         {

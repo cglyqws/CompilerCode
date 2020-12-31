@@ -15,6 +15,7 @@ public class Output {
     static int magic = 0x72303b3e;
     static int version = 0x00000001;
     List<Byte> all;
+
     public static String he(byte b)
     {
         String hex = Integer.toHexString(b & 0xFF);
@@ -28,7 +29,7 @@ public class Output {
 //        p.write(b);
         int size = b.length;
         for (int i = 0; i < size; i++) {
-            p.print(b[i]);
+            p.write(b[i]);
         }
     }
 
