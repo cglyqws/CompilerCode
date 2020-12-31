@@ -39,10 +39,10 @@ public class Data2Byte {
     }
     public static byte[] getBytes2(int data) {
         byte[] bytes = new byte[8];
-        bytes[3] = (byte) (data & 0xff);
-        bytes[2] = (byte) ((data & 0xff00) >> 8);
-        bytes[1] = (byte) ((data & 0xff0000) >> 16);
-        bytes[0] = (byte) ((data & 0xff000000) >> 24);
+        bytes[7] = (byte) (data & 0xff);
+        bytes[6] = (byte) ((data & 0xff00) >> 8);
+        bytes[5] = (byte) ((data & 0xff0000) >> 16);
+        bytes[4] = (byte) ((data & 0xff000000) >> 24);
         return bytes;
     }
     public static byte[] getBytes3(int data) {
