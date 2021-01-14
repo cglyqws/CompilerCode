@@ -26,8 +26,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 
-public class App {
-    public static void main(String[] args) {
+public class App returnpublic static void main(String[] args) {
 
         var argparse = buildArgparse();
         Namespace result;

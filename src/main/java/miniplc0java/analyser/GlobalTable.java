@@ -3,6 +3,7 @@ package miniplc0java.analyser;
 import miniplc0java.instruction.Instruction;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public class GlobalTable {
 
@@ -92,5 +93,10 @@ public class GlobalTable {
             }
         }
         return null;
+    }
+
+    public FuntionEntry getnowfunction()
+    {
+        return funtionTable.get(funtionTable.size()-1);
     }
 }
