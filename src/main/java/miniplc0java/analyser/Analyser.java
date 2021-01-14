@@ -378,6 +378,31 @@ public final class Analyser {
         }
     }
 
+    public boolean typematch(TokenType tp,ReturnType rp)
+    {
+        if (rp==ReturnType.VOID)
+        {
+            return false;
+        }
+        else if (tp==TokenType.CHAR_LITERAL&&rp == ReturnType.CHAR)
+        {
+            return true;
+        }
+        else if (tp==TokenType.Uint && rp == ReturnType.INT)
+        {
+            return true;
+        }
+        else if (tp == TokenType.STRING_LITERAL && rp ==ReturnType.STRING)
+        {
+            return true;
+        }
+        else if (tp==TokenType.DOUBLE_LITERAL && rp == ReturnType.DOUBLE)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private TypeValue analyseexpr() throws CompileError
     {
         var token = peek();
@@ -389,7 +414,17 @@ public final class Analyser {
             if (check(TokenType.Equal))
             {
                 expect(TokenType.Equal);
-                analyseexpr();
+                int index1 = gt.findsymbolindexbyname(tokent.getValueString());
+                instructions.add(new Instruction(Operation.loca,index1));
+                TypeValue TV = analyseexpr();
+                SymbolEntry s = gt.findsymbolbyname(tokent.getValueString());
+                if (typematch(s.getType(),TV.type)){
+                    instructions.add(new Instruction(Operation.store64,index1));
+                }
+                else {
+                    throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token.getStartPos());
+                }
+                return new TypeValue(ReturnType.VOID,null);
             }
 
             //函数调用

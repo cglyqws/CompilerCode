@@ -11,6 +11,16 @@ public class SymbolEntry {
     int level;
     String sysname;
 
+    public ReturnType getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(ReturnType returnType) {
+        this.returnType = returnType;
+    }
+
+    ReturnType returnType;
+
     public SymbolEntry()
     {
 

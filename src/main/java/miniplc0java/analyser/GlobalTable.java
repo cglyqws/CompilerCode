@@ -57,6 +57,20 @@ public class GlobalTable {
         }
         return -1;
     }
+
+    public SymbolEntry findsymbolbyname (String name)
+    {
+        int len = symbolTable.size();
+        for (int i =0 ;i<len ;i++)
+        {
+            if (symbolTable.get(i).getSysname().equals(name))
+            {
+                return symbolTable.get(i);
+            }
+        }
+        return null;
+    }
+
     public int findfuntionindexbyname (String name)
     {
         int len = funtionTable.size();
