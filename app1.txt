@@ -26,7 +26,8 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 
-public class App returnpublic static void main(String[] args) {
+public class App {
+    public static void main(String[] args) {
 
         var argparse = buildArgparse();
         Namespace result;
@@ -40,7 +41,7 @@ public class App returnpublic static void main(String[] args) {
         var inputFileName = result.getString("input");
         var outputFileName = result.getString("output");
 //        var inputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\in.txt";
-//		var outputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\out.txt";
+//        var outputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\out.txt";
 
         InputStream input;
         if (inputFileName.equals("-")) {
@@ -97,17 +98,17 @@ public class App returnpublic static void main(String[] args) {
                 output.println(token.toString());
             }
         } else if (result.getBoolean("analyse")) {
-            // analyze
-            var analyzer = new Analyser(tokenizer);
-            List<Instruction> instructions;
-            try {
-                analyzer.analyse();
-                Output.printfile(output);
-            } catch (Exception e) {
-                // 遇到错误不输出，直接退出
-                System.err.println(e);
-                System.exit(2);
-            }
+        // analyze
+        var analyzer = new Analyser(tokenizer);
+        List<Instruction> instructions;
+        try {
+            analyzer.analyse();
+            Output.printfile(output);
+        } catch (Exception e) {
+            // 遇到错误不输出，直接退出
+            System.err.println(e);
+            System.exit(2);
+        }
         } else {
             System.err.println("Please specify either '--analyse' or '--tokenize'.");
             System.exit(1);
