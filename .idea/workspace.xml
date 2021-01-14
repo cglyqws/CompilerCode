@@ -23,10 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90564160-5767-4495-b5ee-218dc36d9e63" name="Default Changelist" comment="test">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/GlobalTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/GlobalTable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,7 +248,7 @@
       <workItem from="1610537111390" duration="7000" />
       <workItem from="1610596720670" duration="130000" />
       <workItem from="1610596942112" duration="3787000" />
-      <workItem from="1610604931701" duration="5447000" />
+      <workItem from="1610604931701" duration="6336000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1608711689978</created>

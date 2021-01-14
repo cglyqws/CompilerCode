@@ -266,9 +266,18 @@ public final class Analyser {
         expect(TokenType.Arrow);
         var token = analysety();
         f = funtionTable.get(funtionTable.size()-1);
+
         if (token.getValueString().equals("void"))
         {
             f.setReturnType(ReturnType.VOID);
+        }
+        else if (token.getValueString().equals("int"))
+        {
+            f.setReturnType(ReturnType.INT);
+        }
+        else if (token.getValueString().equals("double"))
+        {
+            f.setReturnType(ReturnType.DOUBLE);
         }
        
         f.setParam(param);
@@ -341,7 +350,7 @@ public final class Analyser {
             expect(TokenType.Semicolon);
         }
         else {
-            
+
             TypeValue tv = analyseexpr();
             FuntionEntry f = gt.getnowfunction();
 
