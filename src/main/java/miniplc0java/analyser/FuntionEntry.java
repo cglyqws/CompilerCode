@@ -14,6 +14,16 @@ public class FuntionEntry {
     private List<SymbolEntry> symbolTable = new ArrayList<>();
     private List<Instruction> instructions = new ArrayList<>();
 
+    public ReturnType getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(ReturnType returnType) {
+        this.returnType = returnType;
+    }
+
+    private ReturnType returnType;
+
     public int getParam() {
         return param;
     }

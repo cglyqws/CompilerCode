@@ -23,8 +23,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90564160-5767-4495-b5ee-218dc36d9e63" name="Default Changelist" comment="test">
+      <change afterPath="$PROJECT_DIR$/app1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/ReturnType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/TypeValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Data2Byte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Data2Byte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid13472.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid13864.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid17380.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid6620.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid6636.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid8556.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/FuntionEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/FuntionEntry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,12 +110,12 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/新建文件夹 (7)/samshui-C0" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
@@ -153,15 +166,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -253,7 +264,16 @@
       <workItem from="1609079237679" duration="682000" />
       <workItem from="1609089717209" duration="603000" />
       <workItem from="1609399086462" duration="6239000" />
-      <workItem from="1609411063128" duration="1148000" />
+      <workItem from="1609411063128" duration="3186000" />
+      <workItem from="1609414674351" duration="378000" />
+      <workItem from="1609415593419" duration="1237000" />
+      <workItem from="1609490027735" duration="645000" />
+      <workItem from="1609823322723" duration="2141000" />
+      <workItem from="1609858081467" duration="596000" />
+      <workItem from="1610121776463" duration="213000" />
+      <workItem from="1610537111390" duration="7000" />
+      <workItem from="1610596720670" duration="130000" />
+      <workItem from="1610596942112" duration="2555000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1608711689978</created>
@@ -296,34 +316,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="695" y="343" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1608087696535" />
-    <state x="704" y="221" key="#com.intellij.ide.util.MemberChooser" timestamp="1608381458065">
+    <state x="704" y="221" key="#com.intellij.ide.util.MemberChooser" timestamp="1609835813926">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="704" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1608381458065" />
+    <state x="704" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1609835813926" />
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1608437403156">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608437403156" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1609409846481">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1610598193814">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1609409846481" />
-    <state width="1877" height="211" key="GridCell.Tab.0.bottom" timestamp="1609412159751">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1610598193814" />
+    <state width="1877" height="211" key="GridCell.Tab.0.bottom" timestamp="1610598957735">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609412159751" />
-    <state width="1877" height="211" key="GridCell.Tab.0.center" timestamp="1609412159751">
+    <state width="1877" height="211" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610598957735" />
+    <state width="1877" height="211" key="GridCell.Tab.0.center" timestamp="1610598957735">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609412159751" />
-    <state width="1877" height="211" key="GridCell.Tab.0.left" timestamp="1609412159751">
+    <state width="1877" height="211" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610598957735" />
+    <state width="1877" height="211" key="GridCell.Tab.0.left" timestamp="1610598957735">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609412159751" />
-    <state width="1877" height="211" key="GridCell.Tab.0.right" timestamp="1609412159751">
+    <state width="1877" height="211" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610598957735" />
+    <state width="1877" height="211" key="GridCell.Tab.0.right" timestamp="1610598957735">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="211" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609412159751" />
+    <state width="1877" height="211" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610598957735" />
     <state width="1877" height="366" key="GridCell.Tab.1.bottom" timestamp="1609410777233">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -340,10 +360,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="366" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609410777233" />
-    <state x="693" y="189" key="SettingsEditor" timestamp="1608442755900">
+    <state x="693" y="189" key="SettingsEditor" timestamp="1610596827295">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="693" y="189" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1608442755900" />
+    <state x="693" y="189" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610596827295" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1608711825067">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

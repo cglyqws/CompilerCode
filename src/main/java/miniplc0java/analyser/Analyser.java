@@ -192,73 +192,6 @@ public final class Analyser {
         return this.nextOffset++;
     }
 
-//    /**
-//     * 添加一个符号
-//     *
-//     * @param name          名字
-//     * @param isInitialized 是否已赋值
-//     * @param isConstant    是否是常量
-//     * @param curPos        当前 token 的位置（报错用）
-//     * @throws AnalyzeError 如果重复定义了则抛异常
-//     */
-//    private void addSymbol(String name, boolean isInitialized,TokenType type, boolean isConstant, Pos curPos,int location) throws AnalyzeError {
-//        if (this.symbolTable.get(name) != null) {
-//            throw new AnalyzeError(ErrorCode.DuplicateDeclaration, curPos);
-//        } else {
-//            this.symbolTable.put(name, new SymbolEntry(isConstant, type,isInitialized, getNextVariableOffset(),location));
-//        }
-//    }
-
-//    /**
-//     * 设置符号为已赋值
-//     *
-//     * @param name   符号名称
-//     * @param curPos 当前位置（报错用）
-//     * @throws AnalyzeError 如果未定义则抛异常
-//     */
-//    private void initializeSymbol(String name, Pos curPos) throws AnalyzeError {
-//        var entry = this.symbolTable.get(name);
-//        if (entry == null) {
-//            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
-//        } else {
-//            entry.setInitialized(true);
-//        }
-//    }
-
-//    /**
-//     * 获取变量在栈上的偏移
-//     *
-//     * @param name   符号名
-//     * @param curPos 当前位置（报错用）
-//     * @return 栈偏移
-//     * @throws AnalyzeError
-//     */
-//    private int getOffset(String name, Pos curPos) throws AnalyzeError {
-//        var entry = this.symbolTable.get(name);
-//        if (entry == null) {
-//            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
-//        } else {
-//            return entry.getStackOffset();
-//        }
-//    }
-
-//    /**
-//     * 获取变量是否是常量
-//     *
-//     * @param name   符号名
-//     * @param curPos 当前位置（报错用）
-//     * @return 是否为常量
-//     * @throws AnalyzeError
-//     */
-//    private boolean isConstant(String name, Pos curPos) throws AnalyzeError {
-//        var entry = this.symbolTable.get(name);
-//        if (entry == null) {
-//            throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
-//        } else {
-//            return entry.isConstant();
-//        }
-//    }
-
     public void initsymboltable(ArrayList<SymbolEntry> f)
     {
         f.add(new SymbolEntry("_start",true,SymbolType.FUNTION));
@@ -305,6 +238,11 @@ public final class Analyser {
         int param = 0;
         expect(TokenType.FN_KW);
         var token1 = expect(TokenType.Ident);
+        if(gt.findfuntionbyname(token1.getValueString())!=null)
+        {
+            throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token1.getStartPos());
+        }
+
         FuntionEntry f = new FuntionEntry();
         f.setFuncname(token1.getValueString());
 
@@ -328,6 +266,11 @@ public final class Analyser {
         expect(TokenType.Arrow);
         var token = analysety();
         f = funtionTable.get(funtionTable.size()-1);
+        if (token.getValueString().equals("void"))
+        {
+            f.setReturnType(ReturnType.VOID);
+        }
+       
         f.setParam(param);
 
         if (token.getValueString().equals("void"))
@@ -349,6 +292,7 @@ public final class Analyser {
         f.getInstructions().add(new Instruction(Operation.ret));
         funtionTable.set(funtionTable.size()-1,f);
     }
+
     private void analyseblockstmt() throws CompileError
     {
         expect(TokenType.LBParen);
@@ -433,12 +377,14 @@ public final class Analyser {
             default:return false;
         }
     }
-    private void analyseexpr() throws CompileError
+
+    private TypeValue analyseexpr() throws CompileError
     {
         var token = peek();
         if (check(TokenType.Ident))
         {
             var tokent = expect(TokenType.Ident);
+
             //赋值语句
             if (check(TokenType.Equal))
             {
@@ -486,10 +432,11 @@ public final class Analyser {
 
 
             }
+
             //
             else if (!check(TokenType.AS_KW)&&!isop())
             {
-                return ;
+                return null;
             }
 
         }
@@ -535,6 +482,8 @@ public final class Analyser {
             analyseoperator();
             analyseexpr();
         }
+
+        return null;
     }
 
     private void analyseoperator() throws CompileError
