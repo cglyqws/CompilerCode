@@ -264,6 +264,7 @@ public final class Analyser {
         }
 
         expect(TokenType.Arrow);
+
         var token = analysety();
         f = funtionTable.get(funtionTable.size()-1);
 
@@ -279,7 +280,7 @@ public final class Analyser {
         {
             f.setReturnType(ReturnType.DOUBLE);
         }
-       
+
         f.setParam(param);
 
         if (token.getValueString().equals("void"))
@@ -290,6 +291,7 @@ public final class Analyser {
         {
             f.setReturncount(1);
         }
+
         f.setFuncname(token1.getValueString());
         now++;
         funtionTable.set(funtionTable.size()-1,f);
@@ -347,6 +349,11 @@ public final class Analyser {
 //        var value = analyseexpr();
         if (check(TokenType.Semicolon))
         {
+            FuntionEntry f = gt.getnowfunction();
+            if (f.getReturnType()!=ReturnType.VOID)
+            {
+                throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
+            }
             expect(TokenType.Semicolon);
         }
         else {
