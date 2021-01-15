@@ -3,6 +3,7 @@ package miniplc0java.analyser;
 import miniplc0java.instruction.Instruction;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class GlobalTable {
@@ -48,10 +49,11 @@ public class GlobalTable {
 
     public int findsymbolindexbyname (String name)
     {
-        int len = symbolTable.size();
+        List<SymbolEntry> systable = getnowfunction().getSymbolTable();
+        int len = systable.size();
         for (int i =0 ;i<len ;i++)
         {
-            if (symbolTable.get(i).getSysname().equals(name))
+            if (systable.get(i).getSysname().equals(name))
             {
                 return i;
             }
@@ -61,12 +63,13 @@ public class GlobalTable {
 
     public SymbolEntry findsymbolbyname (String name)
     {
-        int len = symbolTable.size();
+        List<SymbolEntry> systable = getnowfunction().getSymbolTable();
+        int len = systable.size();
         for (int i =0 ;i<len ;i++)
         {
-            if (symbolTable.get(i).getSysname().equals(name))
+            if (systable.get(i).getSysname().equals(name))
             {
-                return symbolTable.get(i);
+                return systable.get(i);
             }
         }
         return null;
@@ -99,4 +102,5 @@ public class GlobalTable {
     {
         return funtionTable.get(funtionTable.size()-1);
     }
+
 }
