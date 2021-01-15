@@ -855,6 +855,7 @@ public final class Analyser {
 
         if (check(TokenType.LET_KW))
         {
+            localvar += 1;
             expect(TokenType.LET_KW);
             var token = expect(TokenType.Ident);
             expect(TokenType.Collon);
