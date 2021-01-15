@@ -534,6 +534,7 @@ public final class Analyser {
                     instructions1.add(new Instruction(Operation.addi));
                     stackitem.remove(stackitem.size()-1);
                     stackitem.remove(stackitem.size()-1);
+                    stackop.remove(stackop.size()-1);
                     stackitem.add(new Token(TokenType.expr));
                 }
                 else if (op.getTokenType()==TokenType.Minus) {
