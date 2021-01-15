@@ -11,6 +11,7 @@ import miniplc0java.tokenizer.Token;
 import miniplc0java.tokenizer.TokenType;
 import miniplc0java.tokenizer.Tokenizer;
 import miniplc0java.util.Pos;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -83,15 +84,10 @@ public final class Analyser {
      */
     public List<SymbolEntry> getnowsymboltable()
     {
-        if (funtionTable.size()==0)
-        {
-            return symbolTable;
-        }
-        else
-        {
+
             FuntionEntry f = funtionTable.get(funtionTable.size()-1);
             return f.getSymbolTable();
-        }
+
     }
 
     /**
@@ -100,15 +96,9 @@ public final class Analyser {
      */
     public List<Instruction> getnowinstructions()
     {
-        if (funtionTable.size()==0)
-        {
-            return instructions;
-        }
-        else
-        {
+
             FuntionEntry f = funtionTable.get(funtionTable.size()-1);
             return f.getInstructions();
-        }
     }
     /**
      * 查看下一个 Token
@@ -276,6 +266,7 @@ public final class Analyser {
         else if (token.getValueString().equals("int"))
         {
             f.setReturnType(ReturnType.INT);
+
         }
         else if (token.getValueString().equals("double"))
         {
@@ -358,7 +349,8 @@ public final class Analyser {
             expect(TokenType.Semicolon);
         }
         else {
-
+            List<Instruction> in =getnowinstructions();
+            in.add(new Instruction(Operation.arga,0));
             TypeValue tv = analyseexpr();
             FuntionEntry f = gt.getnowfunction();
 
@@ -368,9 +360,10 @@ public final class Analyser {
             }
             if (tv.type!=ReturnType.VOID)
             {
-                instructions.add(new Instruction(Operation.store64));
+                in.add(new Instruction(Operation.store64));
             }
             expect(TokenType.Semicolon);
+
         }
 
 
@@ -515,13 +508,13 @@ public final class Analyser {
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
-                        instructions1.add(new Instruction(Operation.push, gt.findsymbolindexbyname(l.getValueString())));
+                        instructions1.add(new Instruction(Operation.push, gt.findsymbolindexbyname(l.getValueString())+1));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     if (r.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
-                        instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())));
+                        instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+1));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (r.getTokenType()==TokenType.Uint){
@@ -549,18 +542,21 @@ public final class Analyser {
         var token = peek();
         if (check(TokenType.Ident))
         {
+
             var tokent = expect(TokenType.Ident);
 
             //赋值语句
             if (check(TokenType.Equal))
             {
+                List<Instruction> in = getnowinstructions();
+
                 expect(TokenType.Equal);
                 int index1 = gt.findsymbolindexbyname(tokent.getValueString());
-                instructions.add(new Instruction(Operation.loca,index1));
+                in.add(new Instruction(Operation.loca,index1));
                 TypeValue TV = analyseexpr();
                 SymbolEntry s = gt.findsymbolbyname(tokent.getValueString());
                 if (typematch(s.getType(),TV.type)||s.returnType==TV.type){
-                    instructions.add(new Instruction(Operation.store64,index1));
+                    in.add(new Instruction(Operation.store64,index1));
                 }
                 else {
                     throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token.getStartPos());
@@ -578,7 +574,7 @@ public final class Analyser {
                     FuntionEntry f = getstandardfun(tokent.getValueString());
                     int returncount = f.getReturncount();
                     List<Instruction> instructions = getnowinstructions();
-                    int ind = gt.findsymbolindexbyname(tokent.getValueString());
+                    int ind = gt.findsymbolindexstandardname(tokent.getValueString());
                     instructions.add(new Instruction(Operation.stackalloc,returncount));
                     expect(TokenType.LParen);
                     if (!check(TokenType.RParen)) {
@@ -591,20 +587,22 @@ public final class Analyser {
                 }
                 else {
                     var fun = gt.findfuntionbyname(tokent.getValueString());
+                    List<Instruction> in = getnowinstructions();
+
                     if (fun==null)
                     {
                         throw new AnalyzeError(ErrorCode.NotDeclared,tokent.getStartPos());
                     }
                     else {
                         int returncount = fun.getReturncount();
-                        instructions.add(new Instruction(Operation.stackalloc,returncount));
+                        in.add(new Instruction(Operation.stackalloc,returncount));
                         expect(TokenType.LParen);
                         if (!check(TokenType.RParen)) {
                             analysepcallparamlist();//参数压栈
                         }
                         expect(TokenType.RParen);
                         int ind = gt.findfuntionindexbyname(tokent.getValueString());
-                        instructions.add(new Instruction(Operation.call,ind));
+                        in.add(new Instruction(Operation.call,ind));
                     }
                     return new TypeValue(fun.getReturnType(),null);
 
@@ -619,6 +617,9 @@ public final class Analyser {
             }
             else if (!check(TokenType.AS_KW)&&!isop())
             {
+                List<Instruction> in = getnowinstructions();
+                in.add(new Instruction(Operation.loca, gt.findsymbolindexbyname(tokent.getValueString())));
+                in.add(new Instruction(Operation.load64));
                 return null;
             }
         }
@@ -885,11 +886,11 @@ public final class Analyser {
                 else {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
-                instructions.add(new Instruction(Operation.loca,off));
+                List<Instruction> in = getnowinstructions();
+                in.add(new Instruction(Operation.loca,off));
                 expect(TokenType.Equal);
                 analyseexpr();
                 expect(TokenType.Semicolon);
-
             }
             else {
                 List<SymbolEntry> nowsymboltable = getnowsymboltable();
@@ -916,8 +917,7 @@ public final class Analyser {
                 else {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
-                instructions.add(new Instruction(Operation.loca,off));
-                expect(TokenType.Semicolon);
+
             }
         }
         else if (check(TokenType.CONST_KW))
@@ -993,7 +993,7 @@ public final class Analyser {
                 fun.setParam(1);
                 fun.setLocalvar(0);
                 fun.setFuncname("getint");
-                fun.setReturncount(0);
+                fun.setReturncount(1);
                 fun.setReturnType(ReturnType.INT);
                 return fun;
             case "getdouble":
@@ -1001,14 +1001,14 @@ public final class Analyser {
                 fun.setLocalvar(0);
                 fun.setFuncname("getdouble");
                 fun.setReturnType(ReturnType.DOUBLE);
-                fun.setReturncount(0);
+                fun.setReturncount(1);
                 return fun;
             case "getchar":
                 fun.setParam(1);
                 fun.setLocalvar(0);
                 fun.setFuncname("getchar");
                 fun.setReturnType(ReturnType.CHAR);
-                fun.setReturncount(0);
+                fun.setReturncount(1);
                 return fun;
             case "putint":
                 fun.setParam(0);
