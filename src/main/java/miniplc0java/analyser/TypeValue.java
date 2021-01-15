@@ -12,4 +12,8 @@ public class TypeValue {
         this.type = rt;
         this.vlaue = var;
     }
+    public TypeValue()
+    {
+
+    }
 }

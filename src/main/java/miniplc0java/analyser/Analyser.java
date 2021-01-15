@@ -430,6 +430,105 @@ public final class Analyser {
         return false;
     }
 
+    public boolean isitem(Token T)
+    {
+        if (T.getTokenType()==TokenType.Ident || T.getTokenType() ==TokenType.Uint ||T.getTokenType()==TokenType.DOUBLE_LITERAL)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    public int oprity(Token in,Token out)
+    {
+        if (isitem(in) && out.getTokenType()==TokenType.Plus)
+        {
+            return -1;
+        }
+        if (in.getTokenType()==TokenType.Plus && isitem(out) )
+        {
+            return 1;
+        }
+        return -1;
+    }
+
+    private TypeValue analyseopgexpr(Token first) throws CompileError
+    {
+        TypeValue re = new TypeValue();
+        List<Token> stackop = new ArrayList<>();
+        List<Token> stackitem = new ArrayList<>();
+
+        int top;
+
+        if (isitem(first))
+        {
+            stackitem.add(first);
+        }
+        else {
+            stackop.add(first);
+        }
+
+
+        while (true)
+        {
+            int oprit;
+            if (stackop.size()==0)
+            {
+                oprit = -1;
+            }
+            else oprit = oprity(stackop.get(stackop.size()-1),peek());
+
+            if (oprit<0)
+            {
+                if (isitem(peek()))
+                {
+                    stackitem.add(peek());
+                }
+                else {
+                    stackop.add(peek());
+                }
+            }
+
+            else if (oprit>0)
+            {
+                Token op = stackop.get(stackop.size()-1);
+                if (op.getTokenType()==TokenType.Plus)
+                {
+                    Token l = stackitem.get(stackitem.size()-2);
+                    Token r = stackitem.get(stackitem.size()-1);
+
+                    if (l.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        re.type = s.returnType;
+                        instructions.add(new Instruction(Operation.arga,s.getLocation()));
+                        instructions.add(new Instruction(Operation.load64));
+                    }
+                    else if (l.getTokenType()==TokenType.Uint){
+                        instructions.add(new Instruction(Operation.push,(Integer)l.getValue()));
+                        instructions.add(new Instruction(Operation.load64));
+                    }
+                    if (r.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                        instructions.add(new Instruction(Operation.arga,s.getLocation()));
+                        instructions.add(new Instruction(Operation.load64));
+                    }
+                    else if (r.getTokenType()==TokenType.Uint){
+                        instructions.add(new Instruction(Operation.push,(Integer)r.getValue()));
+                        instructions.add(new Instruction(Operation.load64));
+                    }
+                    instructions.add(new Instruction(Operation.addi));
+                }
+            }
+            if (check(TokenType.Semicolon))
+            {
+                break;
+            }
+        }
+        return re;
+    }
+
     private TypeValue analyseexpr() throws CompileError
     {
         var token = peek();
@@ -495,13 +594,16 @@ public final class Analyser {
 
             }
 
-            //
+            else if (isop())
+            {
+                return analyseopgexpr(tokent);
+            }
             else if (!check(TokenType.AS_KW)&&!isop())
             {
                 return null;
             }
-
         }
+
         else if (check(TokenType.Minus))
         {
             expect(TokenType.Minus);
