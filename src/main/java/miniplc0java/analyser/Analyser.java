@@ -492,6 +492,12 @@ public final class Analyser {
             {
                 List<Instruction> instructions1 = getnowinstructions();
                 Token op = stackop.get(stackop.size()-1);
+                int arg = 0;
+                FuntionEntry f = funtionTable.get(funtionTable.size()-1);
+                if (f.getReturncount()!=0)
+                {
+                    arg = 1;
+                }
                 if (op.getTokenType()==TokenType.Plus)
                 {
                     Token l = stackitem.get(stackitem.size()-2);
@@ -504,17 +510,17 @@ public final class Analyser {
                         {
                             re.type = ReturnType.INT;
                         }
-                        instructions1.add(new Instruction(Operation.arga,s.getLocation()));
+                        instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
-                        instructions1.add(new Instruction(Operation.push, gt.findsymbolindexbyname(l.getValueString())+1));
+                        instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     if (r.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
-                        instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+1));
+                        instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (r.getTokenType()==TokenType.Uint){
