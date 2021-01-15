@@ -513,8 +513,11 @@ public final class Analyser {
                         {
                             re.type = ReturnType.INT;
                         }
-
-                        instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
@@ -526,7 +529,11 @@ public final class Analyser {
                     if (r.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
-                        instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+arg));
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (r.getTokenType()==TokenType.Uint){
@@ -547,7 +554,11 @@ public final class Analyser {
                             if (s.getSymbolType() == SymbolType.INT) {
                                 re.type = ReturnType.INT;
                             }
-                            instructions1.add(new Instruction(Operation.arga, gt.findsymbolindexbyname(l.getValueString()) + arg));
+                            if (s.getSymbolType()==SymbolType.PARAM)
+                            {
+                                instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                            }
+                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())+ arg));
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
