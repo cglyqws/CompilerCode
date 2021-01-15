@@ -520,7 +520,7 @@ public final class Analyser {
                     else if (l.getTokenType()==TokenType.Uint){
                         re.type = ReturnType.INT;
                         instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
-                        instructions1.add(new Instruction(Operation.load64));
+
                     }
 
                     if (r.getTokenType()==TokenType.Ident)
@@ -531,7 +531,7 @@ public final class Analyser {
                     }
                     else if (r.getTokenType()==TokenType.Uint){
                         instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
-                        instructions1.add(new Instruction(Operation.load64));
+
                     }
                     instructions1.add(new Instruction(Operation.addi));
                     stackitem.remove(stackitem.size()-1);
@@ -551,7 +551,7 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
-                            instructions1.add(new Instruction(Operation.load64));
+
                         }
 
                         while (stackop.get(stackop.size()-1).getTokenType()==TokenType.Minus)
@@ -702,7 +702,15 @@ public final class Analyser {
         }
         else if (check(TokenType.Uint))
         {
-            expect(TokenType.Uint);
+            Token to = expect(TokenType.Uint);
+            if (isop())
+            {
+                analyseopgexpr(to);
+            }
+            else {
+                List<Instruction> in = getnowinstructions();
+                in.add(new Instruction(Operation.push,(Integer) to.getValue()));
+            }
         }
         else if (check(TokenType.DOUBLE_LITERAL))
         {
@@ -959,6 +967,7 @@ public final class Analyser {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
                 List<Instruction> in = getnowinstructions();
+                in.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(token.getValueString())));
                 expect(TokenType.Equal);
                 analyseexpr();
                 in.add(new Instruction(Operation.store64));
