@@ -531,9 +531,9 @@ public final class Analyser {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
                         if (s.getSymbolType()==SymbolType.PARAM)
                         {
-                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (r.getTokenType()==TokenType.Uint){
@@ -905,11 +905,11 @@ public final class Analyser {
         symlist.add(sym);
         if (token2.getValue().equals("int"))
         {
-            sym.setSymbolType(SymbolType.INT);
+            sym.setReturnType(ReturnType.INT);
         }
         else if (token2.getValue().equals("double"))
         {
-            sym.setSymbolType(SymbolType.DOUBLE);
+            sym.setReturnType(ReturnType.DOUBLE);
         }
         else if (token2.getValue().equals("void"))
         {
