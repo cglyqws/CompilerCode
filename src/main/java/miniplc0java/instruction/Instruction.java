@@ -129,7 +129,7 @@ public class Instruction {
             case cmpf:
                 return 0x32;
             case negi:
-                return 0x32;
+                return 0x34;
             case negf:
                 return 0x35;
             case itof:

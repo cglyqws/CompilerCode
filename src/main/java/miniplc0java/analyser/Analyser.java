@@ -509,14 +509,16 @@ public final class Analyser {
                     if (l.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(l.getValueString());
-                        if (s.getSymbolType()==SymbolType.INT)
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
                         {
                             re.type = ReturnType.INT;
                         }
+
                         instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
+                        re.type = ReturnType.INT;
                         instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
                         instructions1.add(new Instruction(Operation.load64));
                     }
@@ -957,9 +959,9 @@ public final class Analyser {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
                 List<Instruction> in = getnowinstructions();
-                in.add(new Instruction(Operation.loca,off));
                 expect(TokenType.Equal);
                 analyseexpr();
+                in.add(new Instruction(Operation.store64));
                 expect(TokenType.Semicolon);
             }
             else {
