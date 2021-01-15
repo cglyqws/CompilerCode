@@ -29,19 +29,19 @@ import net.sourceforge.argparse4j.inf.Namespace;
 public class App {
     public static void main(String[] args) {
 
-        var argparse = buildArgparse();
-        Namespace result;
-        try {
-            result = argparse.parseArgs(args);
-        } catch (ArgumentParserException e1) {
-            argparse.handleError(e1);
-            return;
-        }
+//        var argparse = buildArgparse();
+//        Namespace result;
+//        try {
+//            result = argparse.parseArgs(args);
+//        } catch (ArgumentParserException e1) {
+//            argparse.handleError(e1);
+//            return;
+//        }
 
-        var inputFileName = result.getString("input");
-        var outputFileName = result.getString("output");
-//        var inputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\in.txt";
-//        var outputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\out.txt";
+//        var inputFileName = result.getString("input");
+//        var outputFileName = result.getString("output");
+        var inputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\in.txt";
+        var outputFileName = "C:\\Users\\MSI NBOOK\\Desktop\\out.txt";
 
         InputStream input;
         if (inputFileName.equals("-")) {
@@ -77,42 +77,42 @@ public class App {
         var tokenizer = tokenize(iter);
 
 
-        if (result.getBoolean("tokenize")) {
-            // tokenize
-            var tokens = new ArrayList<Token>();
-            try {
-                while (true) {
-                    var token = tokenizer.nextToken();
-                    if (token.getTokenType().equals(TokenType.EOF)) {
-                        break;
-                    }
-                    tokens.add(token);
-                }
-            } catch (Exception e) {
-                // 遇到错误不输出，直接退出
-                System.err.println(e);
-                System.exit(-1);
-                return;
-            }
-            for (Token token : tokens) {
-                output.println(token.toString());
-            }
-        } else if (result.getBoolean("analyse")) {
-            // analyze
-            var analyzer = new Analyser(tokenizer);
-            List<Instruction> instructions;
-            try {
-                analyzer.analyse();
-                Output.printfile(output);
-            } catch (Exception e) {
-                // 遇到错误不输出，直接退出
-                System.err.println(e);
-                System.exit(2);
-            }
-        } else {
-            System.err.println("Please specify either '--analyse' or '--tokenize'.");
-            System.exit(1);
+//        if (result.getBoolean("tokenize")) {
+//            // tokenize
+//            var tokens = new ArrayList<Token>();
+//            try {
+//                while (true) {
+//                    var token = tokenizer.nextToken();
+//                    if (token.getTokenType().equals(TokenType.EOF)) {
+//                        break;
+//                    }
+//                    tokens.add(token);
+//                }
+//            } catch (Exception e) {
+//                // 遇到错误不输出，直接退出
+//                System.err.println(e);
+//                System.exit(-1);
+//                return;
+//            }
+//            for (Token token : tokens) {
+//                output.println(token.toString());
+//            }
+//        } else if (result.getBoolean("analyse")) {
+        // analyze
+        var analyzer = new Analyser(tokenizer);
+        List<Instruction> instructions;
+        try {
+            analyzer.analyse();
+            Output.printfile(output);
+        } catch (Exception e) {
+            // 遇到错误不输出，直接退出
+            System.err.println(e);
+            System.exit(2);
         }
+//        } else {
+//            System.err.println("Please specify either '--analyse' or '--tokenize'.");
+//            System.exit(1);
+//        }
     }
 
     private static ArgumentParser buildArgparse() {

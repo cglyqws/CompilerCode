@@ -65,7 +65,8 @@ public enum TokenType {
     LBParen,
     RBParen,
     /** 文件尾 */
-    EOF;
+    EOF,
+    expr;
 
     @Override
     public String toString() {

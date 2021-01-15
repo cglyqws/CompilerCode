@@ -447,6 +447,10 @@ public final class Analyser {
         {
             return 1;
         }
+        if (in.getTokenType()==TokenType.Minus && out.getTokenType()==TokenType.Minus)
+        {
+            return -1;
+        }
         return -1;
     }
 
@@ -465,7 +469,6 @@ public final class Analyser {
         else {
             stackop.add(first);
         }
-
 
         while (true)
         {
@@ -517,6 +520,7 @@ public final class Analyser {
                         instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
                         instructions1.add(new Instruction(Operation.load64));
                     }
+
                     if (r.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
@@ -528,9 +532,66 @@ public final class Analyser {
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     instructions1.add(new Instruction(Operation.addi));
+                    stackitem.remove(stackitem.size()-1);
+                    stackitem.remove(stackitem.size()-1);
+                    stackitem.add(new Token(TokenType.expr));
                 }
+                else if (op.getTokenType()==TokenType.Minus) {
+                    if (stackitem.size() == 1) {
+                        Token l = stackitem.get(stackitem.size() - 1);
+                        if (l.getTokenType() == TokenType.Ident) {
+                            SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                            if (s.getSymbolType() == SymbolType.INT) {
+                                re.type = ReturnType.INT;
+                            }
+                            instructions1.add(new Instruction(Operation.arga, gt.findsymbolindexbyname(l.getValueString()) + arg));
+                            instructions1.add(new Instruction(Operation.load64));
+                        } else if (l.getTokenType() == TokenType.Uint) {
+                            instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
+                            instructions1.add(new Instruction(Operation.load64));
+                        }
 
-                if (check(TokenType.Semicolon))
+                        while (stackop.get(stackop.size()-1).getTokenType()==TokenType.Minus)
+                        {
+                            instructions1.add(new Instruction(Operation.negi));
+                            stackop.remove(stackop.size()-1);
+                            if (stackop.size()==0)break;
+                        }
+
+
+
+                    } else {
+                        Token l = stackitem.get(stackitem.size() - 2);
+                        Token r = stackitem.get(stackitem.size() - 1);
+
+                        if (l.getTokenType() == TokenType.Ident) {
+                            SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                            if (s.getSymbolType() == SymbolType.INT) {
+                                re.type = ReturnType.INT;
+                            }
+                            instructions1.add(new Instruction(Operation.arga, gt.findsymbolindexbyname(l.getValueString()) + arg));
+                            instructions1.add(new Instruction(Operation.load64));
+                        } else if (l.getTokenType() == TokenType.Uint) {
+                            instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
+                            instructions1.add(new Instruction(Operation.load64));
+                        }
+
+                        if (r.getTokenType() == TokenType.Ident) {
+                            SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                            instructions1.add(new Instruction(Operation.arga, gt.findsymbolindexbyname(r.getValueString()) + arg));
+                            instructions1.add(new Instruction(Operation.load64));
+                        } else if (r.getTokenType() == TokenType.Uint) {
+                            instructions1.add(new Instruction(Operation.push, (Integer) r.getValue()));
+                            instructions1.add(new Instruction(Operation.load64));
+                        }
+                        instructions1.add(new Instruction(Operation.subi));
+
+                        stackitem.remove(stackitem.size() - 1);
+                        stackitem.remove(stackitem.size() - 1);
+                        stackitem.add(new Token(TokenType.expr));
+                    }
+                }
+                if (check(TokenType.Semicolon)&&stackop.size()==0)
                 {
                     break;
                 }
@@ -633,7 +694,8 @@ public final class Analyser {
         else if (check(TokenType.Minus))
         {
             expect(TokenType.Minus);
-            analyseexpr();
+            analyseopgexpr(peek());
+
         }
         else if (check(TokenType.Uint))
         {
