@@ -241,6 +241,7 @@ public final class Analyser {
         funtionTable.add(f);
         if (token1.getValueString().equals("main"))
         {
+
             FuntionEntry func = funtionTable.get(0);
             func.getInstructions().add(new Instruction(Operation.stackalloc,0));
             func.getInstructions().add(new Instruction(Operation.call,funtionTable.size()-1));
@@ -267,6 +268,12 @@ public final class Analyser {
         {
             f.setReturnType(ReturnType.INT);
 
+            if (token1.getValueString().equals("main"))
+            {
+                FuntionEntry fu = gt.findfuntionbyname("_start");
+                fu.getInstructions().get(0).setX(1);
+                fu.getInstructions().add(new Instruction(Operation.popn,1));
+            }
         }
         else if (token.getValueString().equals("double"))
         {
@@ -336,6 +343,9 @@ public final class Analyser {
             else if (check(TokenType.IF_KW))
             {
                 analyseif_stmt();
+                in = getnowinstructions();
+                int end1 = in.size();
+                in.get(start2).setX(end1-start2);
             }
         }
         in.add(new Instruction(Operation.br,0));
@@ -686,7 +696,7 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
-                            instructions1.add(new Instruction(Operation.load64));
+
                         }
 
                         if (r.getTokenType() == TokenType.Ident) {
@@ -695,7 +705,7 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (r.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) r.getValue()));
-                            instructions1.add(new Instruction(Operation.load64));
+
                             re.type = ReturnType.INT;
                         }
                         instructions1.add(new Instruction(Operation.subi));
