@@ -398,7 +398,25 @@ public final class Analyser {
             {
                 in.add(new Instruction(Operation.store64));
             }
+            while (peek().getTokenType()==TokenType.Plus)
+            {
+                expect(TokenType.Plus);
+                in.add(new Instruction(Operation.arga,0));
+                tv = analyseexpr();
+                f = gt.getnowfunction();
+
+                if ( f.getReturnType() != tv.type)
+                {
+                    throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
+                }
+                if (tv.type!=ReturnType.VOID)
+                {
+                    in.add(new Instruction(Operation.store64));
+                }
+                in.add(new Instruction(Operation.addi));
+            }
             expect(TokenType.Semicolon);
+            in.add(new Instruction(Operation.ret));
 
         }
 
@@ -512,6 +530,10 @@ public final class Analyser {
             return 1;
         }
         if (in.getTokenType() == TokenType.Less &&out.getTokenType()==TokenType.LBParen)
+        {
+            return 1;
+        }
+        if (out.getTokenType()==TokenType.RParen)
         {
             return 1;
         }
@@ -637,6 +659,7 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
+                            re.type = ReturnType.INT;
                         }
 
                         while (stackop.get(stackop.size()-1).getTokenType()==TokenType.Minus)
@@ -673,11 +696,13 @@ public final class Analyser {
                         } else if (r.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) r.getValue()));
                             instructions1.add(new Instruction(Operation.load64));
+                            re.type = ReturnType.INT;
                         }
                         instructions1.add(new Instruction(Operation.subi));
 
                         stackitem.remove(stackitem.size() - 1);
                         stackitem.remove(stackitem.size() - 1);
+                        stackop.remove(stackop.size()-1);
                         stackitem.add(new Token(TokenType.expr));
                     }
                 }
@@ -961,7 +986,7 @@ public final class Analyser {
                     stackitem.remove(stackitem.size()-1);
                     stackop.remove(stackop.size()-1);
                 }
-                if ((check(TokenType.Semicolon)||check(TokenType.LBParen))&&stackop.size()==0)
+                if ((check(TokenType.Semicolon)||check(TokenType.LBParen)||check(TokenType.RParen))&&stackop.size()==0)
                 {
                     break;
                 }
@@ -1066,8 +1091,8 @@ public final class Analyser {
 
         else if (check(TokenType.Minus))
         {
-            expect(TokenType.Minus);
-            analyseopgexpr(peek());
+            Token token1 = expect(TokenType.Minus);
+            return  analyseopgexpr(token1);
 
         }
         else if (check(TokenType.Uint))
@@ -1081,6 +1106,7 @@ public final class Analyser {
                 List<Instruction> in = getnowinstructions();
                 in.add(new Instruction(Operation.push,(Integer) to.getValue()));
             }
+            return new TypeValue(ReturnType.INT,null);
         }
         else if (check(TokenType.DOUBLE_LITERAL))
         {
