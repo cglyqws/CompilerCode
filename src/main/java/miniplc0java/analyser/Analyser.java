@@ -296,15 +296,16 @@ public final class Analyser {
         funtionTable.set(funtionTable.size()-1,f);
     }
 
-    private void analyseblockstmt() throws CompileError
+    private int analyseblockstmt() throws CompileError
     {
         expect(TokenType.LBParen);
 
         while (!check(TokenType.RBParen))
         {
-            analysestmt();
+            int i = analysestmt();
         }
         expect(TokenType.RBParen);
+        return 1;
     }
 
     private void analyseif_stmt() throws CompileError
@@ -318,7 +319,7 @@ public final class Analyser {
         analyseblockstmt();
         in = getnowinstructions();
         int end = in.size();
-        in.get(start-1).setX(end-start);
+        in.get(start-1).setX(end-start+1);
 
         if (check(TokenType.ELSE_KW))
         {
@@ -355,10 +356,16 @@ public final class Analyser {
         in.add(new Instruction(Operation.brtrue,1));
         int start2 = in.size();
         in.add(new Instruction(Operation.br,1));
-        analyseblockstmt();
+        int i = analyseblockstmt();
+        if (i==0)
+        {
+            return;
+        }
         in = getnowinstructions();
         int end = in.size();
         in.add(new Instruction(Operation.br,start1-end));
+
+
         in.get(start2).setX(end-start2);
     }
 
@@ -374,6 +381,8 @@ public final class Analyser {
                 throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
             }
             expect(TokenType.Semicolon);
+            List<Instruction> in = getnowinstructions();
+            in.add(new Instruction(Operation.ret));
         }
         else {
             List<Instruction> in =getnowinstructions();
@@ -623,6 +632,8 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.negi));
                             stackop.remove(stackop.size()-1);
+                            Token temp = stackitem.get(stackitem.size()-1);
+                            temp.setValue(-(Integer)temp.getValue());
                             if (stackop.size()==0)break;
                         }
 
@@ -1144,7 +1155,7 @@ public final class Analyser {
      * 最复杂的部分
      * @throws CompileError
      */
-    private void analysestmt() throws CompileError
+    private int analysestmt() throws CompileError
     {
          var token = peek();
         if (check(TokenType.LET_KW) || check (TokenType.CONST_KW))
@@ -1162,6 +1173,7 @@ public final class Analyser {
         else if (check(TokenType.RETURN_KW))
         {
             analysereturn_stmt();
+            return 0;
         }
         else if (check(TokenType.Semicolon))
         {
@@ -1182,6 +1194,7 @@ public final class Analyser {
         else {
             analyseexpr_stmt();
         }
+        return 1;
     }
 
     private void analysebreak_stmt() throws CompileError

@@ -180,6 +180,129 @@ public class Instruction {
     }
     @Override
     public String toString() {
+
+        switch (this.opt)
+        {
+            case push:
+                return "push";
+            case pop:
+                return "pop";
+            case popn:
+                return "popn";
+            case dup:
+                return "dup";
+            case loca:
+                return "loca";
+            case arga:
+                return "arga";
+            case globa:
+                return "globa";
+            case load8:
+                return "load8";
+            case load16:
+                return "load16";
+            case load32:
+                return "load32";
+            case load64:
+                return "load64";
+            case store8:
+                return "store8";
+            case store16:
+                return "store16";
+            case store32:
+                return "store32";
+            case store64:
+                return "store64";
+            case alloc:
+                return "alloc";
+            case free:
+                return "free";
+            case stackalloc:
+                return "stackalloc";
+            case addi:
+                return "addi";
+            case subi:
+                return "subi";
+            case muli:
+                return "muli";
+            case divi:
+                return "divi";
+            case addf:
+                return "addf";
+            case subf:
+                return "subf";
+            case mulf:
+                return "mulf";
+            case divf:
+                return "divf";
+            case divu:
+                return "divu";
+            case shl:
+                return "shl";
+            case shr:
+                return "shr";
+            case and:
+                return "and";
+            case or:
+                return "or";
+            case xor:
+                return "xor";
+            case not:
+                return "not";
+            case cmpi:
+                return "cmpi";
+            case cmpu:
+                return "cmpu";
+            case cmpf:
+                return "cmpf";
+            case negi:
+                return "negi";
+            case negf:
+                return "negf";
+            case itof:
+                return "itof";
+            case ftoi:
+                return "ftoi";
+            case shrl:
+                return "shrl";
+            case setlt:
+                return "setlt";
+            case setgt:
+                return "setgt";
+            case br:
+                return "br";
+            case brfalse:
+                return "brfalse";
+            case brtrue:
+                return "brtrue";
+            case call:
+                return "call";
+            case ret:
+                return "ret";
+            case callname:
+                return "callname";
+            case scani:
+                return "scani";
+            case scanc:
+                return "scanc";
+            case scanf:
+                return "scanf";
+            case printi:
+                return "printi";
+            case printc:
+                return "printc";
+            case printf:
+                return "printf";
+            case prints:
+                return "prints";
+            case println:
+                return "println";
+            case panic:
+                return "panic";
+
+
+
+        }
         return "";
     }
 }
