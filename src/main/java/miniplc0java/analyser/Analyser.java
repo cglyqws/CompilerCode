@@ -404,14 +404,11 @@ public final class Analyser {
             {
                 throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
             }
-            if (tv.type!=ReturnType.VOID)
-            {
-                in.add(new Instruction(Operation.store64));
-            }
+
             while (peek().getTokenType()==TokenType.Plus)
             {
                 expect(TokenType.Plus);
-                in.add(new Instruction(Operation.arga,0));
+
                 tv = analyseexpr();
                 f = gt.getnowfunction();
 
@@ -419,13 +416,15 @@ public final class Analyser {
                 {
                     throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
                 }
-                if (tv.type!=ReturnType.VOID)
-                {
-                    in.add(new Instruction(Operation.store64));
-                }
+
                 in.add(new Instruction(Operation.addi));
+
             }
             expect(TokenType.Semicolon);
+            if (tv.type!=ReturnType.VOID)
+            {
+                in.add(new Instruction(Operation.store64));
+            }
             in.add(new Instruction(Operation.ret));
 
         }
