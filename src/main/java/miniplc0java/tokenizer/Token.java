@@ -22,6 +22,10 @@ public class Token {
     {
         this.tokenType = a;
     }
+    public Token ( )
+    {
+
+    }
     public Token(Token token) {
         this.tokenType = token.tokenType;
         this.value = token.value;

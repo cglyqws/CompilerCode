@@ -20,7 +20,7 @@ public class Output {
     {
         String hex = Integer.toHexString(b & 0xFF);
         if (hex.length() == 1) {
-        hex = '0' + hex;}
+            hex = '0' + hex;}
         return hex;
     }
 
@@ -71,51 +71,51 @@ public class Output {
             print(output, Data2Byte.getBytes(tem.length));
             print(output, tem);
         }
-            List<FuntionEntry> funtiontable = gt.getFuntionTable();
-            int funsize= funtiontable.size();
-            print(output,Data2Byte.getBytes(funsize));
+        List<FuntionEntry> funtiontable = gt.getFuntionTable();
+        int funsize= funtiontable.size();
+        print(output,Data2Byte.getBytes(funsize));
 
-            for (int i = 0; i < funsize; i++) {
-                FuntionEntry fun = funtiontable.get(i);
-                int nameloca = gt.findfuntionindexbyname(fun.getFuncname());
-                print(output,Data2Byte.getBytes(nameloca+1));
-                int returncount = fun.getReturncount();
-                print(output,Data2Byte.getBytes(returncount));
+        for (int i = 0; i < funsize; i++) {
+            FuntionEntry fun = funtiontable.get(i);
+            int nameloca = gt.findfuntionindexbyname(fun.getFuncname());
+            print(output,Data2Byte.getBytes(nameloca+1));
+            int returncount = fun.getReturncount();
+            print(output,Data2Byte.getBytes(returncount));
 
-                int param = fun.getParam();
-                print(output,Data2Byte.getBytes(param));
-                int localvar = fun.getLocalvar();
-                print(output,Data2Byte.getBytes(localvar));
-                List<Instruction> instructions = fun.getInstructions();
-                print(output,Data2Byte.getBytes(instructions.size()));
+            int param = fun.getParam();
+            print(output,Data2Byte.getBytes(param));
+            int localvar = fun.getLocalvar();
+            print(output,Data2Byte.getBytes(localvar));
+            List<Instruction> instructions = fun.getInstructions();
+            print(output,Data2Byte.getBytes(instructions.size()));
 
-                int a=0;
-                for (Instruction instruction : instructions) {
+            int a=0;
+            for (Instruction instruction : instructions) {
 
 //                    output.print(String.valueOf(a)+":"+instruction);
 //                    a++;
-                    print(output,Data2Byte.getBytes3(instruction.indexinstruct()));
-                    if (instruction.getOpt()== Operation.push)
-                    {
-                        print(output,Data2Byte.getBytes2(instruction.getX()));
-                    }
-                    else if (instruction.getOpt()==Operation.popn
-                    ||instruction.getOpt()==Operation.loca
-                    ||instruction.getOpt()==Operation.arga
-                    ||instruction.getOpt()==Operation.globa
-                    ||instruction.getOpt()==Operation.stackalloc
-                    ||instruction.getOpt()==Operation.br
-                    ||instruction.getOpt()==Operation.brfalse
-                    ||instruction.getOpt()==Operation.brtrue
-                    ||instruction.getOpt()==Operation.call
-                    ||instruction.getOpt()==Operation.callname)
-                    {
-                        print(output,Data2Byte.getBytes(instruction.getX()));
-                    }
-//                    output.println();
+                print(output,Data2Byte.getBytes3(instruction.indexinstruct()));
+                if (instruction.getOpt()== Operation.push)
+                {
+                    print(output,Data2Byte.getBytes2(instruction.getX()));
                 }
-
+                else if (instruction.getOpt()==Operation.popn
+                        ||instruction.getOpt()==Operation.loca
+                        ||instruction.getOpt()==Operation.arga
+                        ||instruction.getOpt()==Operation.globa
+                        ||instruction.getOpt()==Operation.stackalloc
+                        ||instruction.getOpt()==Operation.br
+                        ||instruction.getOpt()==Operation.brfalse
+                        ||instruction.getOpt()==Operation.brtrue
+                        ||instruction.getOpt()==Operation.call
+                        ||instruction.getOpt()==Operation.callname)
+                {
+                    print(output,Data2Byte.getBytes(instruction.getX()));
+                }
+//                    output.println();
             }
+
+        }
 
 
     }

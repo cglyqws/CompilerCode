@@ -517,7 +517,14 @@ public final class Analyser {
         }
         return -1;
     }
-
+    public boolean iscpm(TokenType a)
+    {
+        if (a==TokenType.Comma.More)
+        {
+            return true;
+        }
+        return false;
+    }
     private TypeValue analyseopgexpr(Token first) throws CompileError
     {
         TypeValue re = new TypeValue();
@@ -550,7 +557,11 @@ public final class Analyser {
                     stackitem.add(peek());
                 }
                 else {
-                    stackop.add(peek());
+                    if (stackop.size()!=0&&iscpm(stackop.get(stackop.size()-1).getTokenType())&&peek().getTokenType()==TokenType.Minus)
+                    {
+                        stackitem.add(peek());
+                    }
+                    else stackop.add(peek());
                 }
                 expect(peek().getTokenType());
             }
@@ -611,7 +622,7 @@ public final class Analyser {
                     stackitem.add(new Token(TokenType.expr));
                 }
                 else if (op.getTokenType()==TokenType.Minus) {
-                    if (stackitem.size() == 1||stackop.size()>=stackitem.size()) {
+                    if (stackitem.size() == 1) {
                         Token l = stackitem.get(stackitem.size() - 1);
                         if (l.getTokenType() == TokenType.Ident) {
                             SymbolEntry s = gt.findsymbolbyname(l.getValueString());
@@ -854,7 +865,14 @@ public final class Analyser {
                 else if (op.getTokenType()==TokenType.More)
                 {
                     Token l = stackitem.get(stackitem.size()-2);
-                    Token r = stackitem.get(stackitem.size()-1);
+                    Token r = new Token();
+                    int flagr = 0;
+                    if (l.getTokenType()==TokenType.Minus)
+                    {
+                        l = stackitem.get(stackitem.size()-3);
+                        flagr = -1;
+                    }
+                    r = stackitem.get(stackitem.size()-1);
 
                     if (l.getTokenType()==TokenType.Ident)
                     {
@@ -888,7 +906,9 @@ public final class Analyser {
                     }
                     else if (r.getTokenType()==TokenType.Uint){
                         instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
-
+                    }
+                    if (flagr == -1){
+                        instructions1.add(new Instruction(Operation.negi));
                     }
                     instructions1.add(new Instruction(Operation.cmpi));
                     instructions1.add(new Instruction(Operation.setgt));
