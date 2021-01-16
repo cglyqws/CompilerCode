@@ -318,7 +318,7 @@ public final class Analyser {
         analyseblockstmt();
         in = getnowinstructions();
         int end = in.size();
-        in.get(start-1).setX(end-start+2);
+        in.get(start-1).setX(end-start+1);
         in.add(new Instruction(Operation.br,0));
         if (check(TokenType.ELSE_KW))
         {
