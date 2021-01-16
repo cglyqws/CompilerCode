@@ -318,20 +318,26 @@ public final class Analyser {
         analyseblockstmt();
         in = getnowinstructions();
         int end = in.size();
-        in.get(start-1).setX(end-start+1);
-        in.add(new Instruction(Operation.br,0));
+        in.get(start-1).setX(end-start);
+
         if (check(TokenType.ELSE_KW))
         {
             expect(TokenType.ELSE_KW);
+            int start2 = in.size();
+            in.add(new Instruction(Operation.br,0));
             if (check(TokenType.LBParen))
             {
                 analyseblockstmt();
+                in = getnowinstructions();
+                int end1 = in.size();
+                in.get(start2).setX(end1-start2);
             }
             else if (check(TokenType.IF_KW))
             {
                 analyseif_stmt();
             }
         }
+        in.add(new Instruction(Operation.br,0));
 
     }
 
