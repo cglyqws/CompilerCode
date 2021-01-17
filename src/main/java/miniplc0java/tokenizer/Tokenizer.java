@@ -108,6 +108,7 @@ public class Tokenizer {
         StringBuilder tempstring = new StringBuilder();
 
         it.nextChar();
+        int i=0;
         while (true)
         {
             char c = it.peekChar();
@@ -144,6 +145,11 @@ public class Tokenizer {
             else if (c!='\"')
             {
                 tempstring.append(it.peekChar());
+                i++;
+                if (i>1000)
+                {
+                    throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+                }
             }
             else if (c=='\"')
             {

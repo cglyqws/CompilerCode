@@ -2412,7 +2412,11 @@ public final class Analyser {
                 }
                 in.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(token.getValueString())-gt.findparamindex(" ")+arg));
                 expect(TokenType.Equal);
-                analyseexpr();
+                TypeValue tv = analyseexpr();
+                if (tv.type!=sys.getReturnType())
+                {
+                    throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
+                }
                 in.add(new Instruction(Operation.store64));
                 expect(TokenType.Semicolon);
             }
