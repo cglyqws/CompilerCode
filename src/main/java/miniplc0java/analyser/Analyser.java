@@ -766,6 +766,10 @@ public final class Analyser {
             else
             {
                 oprit = oprity(stackop.get(stackop.size()-1),peek());
+                if (stackop.get(stackop.size()-1).getTokenType()==TokenType.Minus&&peek().getTokenType()==TokenType.Minus&&stackitem.size()==0)
+                {
+                    oprit=-1;
+                }
             }
 
             if (oprit<0)
