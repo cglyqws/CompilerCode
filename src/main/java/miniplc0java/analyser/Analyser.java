@@ -655,7 +655,7 @@ public final class Analyser {
         }
         if (in.getTokenType()==TokenType.Minus && out.getTokenType()==TokenType.Minus)
         {
-            return -1;
+            return 1;
         }
         if (isitem(in)&&out.getTokenType()==TokenType.LBParen)
         {
