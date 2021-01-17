@@ -628,7 +628,7 @@ public final class Analyser {
 
     public boolean isitem(Token T)
     {
-        if (T.getTokenType()==TokenType.Ident || T.getTokenType() ==TokenType.Uint ||T.getTokenType()==TokenType.DOUBLE_LITERAL)
+        if (T.getTokenType()==TokenType.Ident || T.getTokenType() ==TokenType.Uint ||T.getTokenType()==TokenType.DOUBLE_LITERAL||T.getTokenType()==TokenType.CHAR_LITERAL)
         {
             return true;
         }
@@ -931,6 +931,10 @@ public final class Analyser {
 
                             re.type = ReturnType.INT;
                         }
+                        else if (r.getTokenType()==TokenType.CHAR_LITERAL)
+                        {
+                            instructions1.add(new Instruction(Operation.push,(int) r.getValue()));
+                        }
                         instructions1.add(new Instruction(Operation.subi));
 
                         stackitem.remove(stackitem.size() - 1);
@@ -977,6 +981,10 @@ public final class Analyser {
                     else if (r.getTokenType()==TokenType.Uint){
                         instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
 
+                    }
+                    else if (r.getTokenType()==TokenType.CHAR_LITERAL)
+                    {
+                        instructions1.add(new Instruction(Operation.push,(int) r.getValue()));
                     }
                     instructions1.add(new Instruction(Operation.cmpi));
                     instructions1.add(new Instruction(Operation.not));
@@ -1165,6 +1173,10 @@ public final class Analyser {
                     else if (r.getTokenType()==TokenType.Uint){
                         instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
                     }
+                    else if (r.getTokenType()==TokenType.CHAR_LITERAL)
+                    {
+                        instructions1.add(new Instruction(Operation.push,(int) r.getValue()));
+                    }
                     if (flagr == -1){
                         instructions1.add(new Instruction(Operation.negi));
                     }
@@ -1212,6 +1224,10 @@ public final class Analyser {
                     else if (r.getTokenType()==TokenType.Uint){
                         instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
 
+                    }
+                    else if (r.getTokenType()==TokenType.CHAR_LITERAL)
+                    {
+                        instructions1.add(new Instruction(Operation.push,r.getValue().hashCode()));
                     }
 
                     if (r.getTokenType()==TokenType.expr){

@@ -27,7 +27,6 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Output.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +270,7 @@
       <workItem from="1610738135016" duration="9624000" />
       <workItem from="1610753679287" duration="25402000" />
       <workItem from="1610851077630" duration="17558000" />
-      <workItem from="1610885011192" duration="17918000" />
+      <workItem from="1610885011192" duration="20212000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1608711689978</created>
@@ -330,38 +329,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1610738978509" />
-    <state width="1877" height="318" key="GridCell.Tab.0.bottom" timestamp="1610906709738">
+    <state width="1199" height="135" key="GridCell.Tab.0.bottom" timestamp="1610908778835">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
-    <state width="1877" height="318" key="GridCell.Tab.0.center" timestamp="1610906709738">
+    <state width="1199" height="135" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610908778835" />
+    <state width="1199" height="135" key="GridCell.Tab.0.center" timestamp="1610908778835">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
-    <state width="1877" height="318" key="GridCell.Tab.0.left" timestamp="1610906709738">
+    <state width="1199" height="135" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610908778835" />
+    <state width="1199" height="135" key="GridCell.Tab.0.left" timestamp="1610908778834">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
-    <state width="1877" height="318" key="GridCell.Tab.0.right" timestamp="1610906709738">
+    <state width="1199" height="135" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610908778834" />
+    <state width="1199" height="135" key="GridCell.Tab.0.right" timestamp="1610908778835">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
-    <state width="1877" height="318" key="GridCell.Tab.1.bottom" timestamp="1610906709738">
+    <state width="1199" height="135" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610908778835" />
+    <state width="1199" height="318" key="GridCell.Tab.1.bottom" timestamp="1610908657586">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
-    <state width="1877" height="318" key="GridCell.Tab.1.center" timestamp="1610906709738">
+    <state width="1199" height="318" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610908657586" />
+    <state width="1199" height="318" key="GridCell.Tab.1.center" timestamp="1610908657585">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
-    <state width="1877" height="318" key="GridCell.Tab.1.left" timestamp="1610906709738">
+    <state width="1199" height="318" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610908657585" />
+    <state width="1199" height="318" key="GridCell.Tab.1.left" timestamp="1610908657585">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
-    <state width="1877" height="318" key="GridCell.Tab.1.right" timestamp="1610906709738">
+    <state width="1199" height="318" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610908657585" />
+    <state width="1199" height="318" key="GridCell.Tab.1.right" timestamp="1610908657586">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="318" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610906709738" />
+    <state width="1199" height="318" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610908657586" />
     <state x="693" y="189" key="SettingsEditor" timestamp="1610596827295">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -392,7 +391,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>1124</line>
+          <line>1132</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -402,7 +401,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2078</line>
+          <line>2094</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -412,7 +411,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>1996</line>
+          <line>2012</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -422,12 +421,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2051</line>
+          <line>2067</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2097</line>
+          <line>2113</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -437,12 +436,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>1340</line>
+          <line>1356</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2247</line>
+          <line>2263</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>

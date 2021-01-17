@@ -146,7 +146,7 @@ public class Tokenizer {
             {
                 tempstring.append(it.peekChar());
                 i++;
-                if (i>1000)
+                if (i>10000)
                 {
                     throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
                 }
