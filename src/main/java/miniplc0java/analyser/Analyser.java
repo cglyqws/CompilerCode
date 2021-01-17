@@ -2397,9 +2397,10 @@ public final class Analyser {
                 List<SymbolEntry> nowsymboltable = getnowsymboltable();
                 var sys = nowgetSymbol(token.getValueString());
                 int off = nowsymboltable.size();
+                SymbolEntry s = new SymbolEntry();
                 if (sys==null)
                 {
-                    SymbolEntry s = new SymbolEntry();
+
                     s.setConstant(false);
                     s.setLevel(now);
                     s.setSysname(token.getValueString());
@@ -2429,7 +2430,7 @@ public final class Analyser {
                 in.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(token.getValueString())-gt.findparamindex(" ")+arg));
                 expect(TokenType.Equal);
                 TypeValue tv = analyseexpr();
-                if (tv.type!=sys.getReturnType())
+                if (tv.type!=s.getReturnType())
                 {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
