@@ -223,7 +223,10 @@ public final class Analyser {
             {
                 analysefn();
             }
-            else analyseglobaldecl_stmt();
+            else {
+                analyseglobaldecl_stmt();
+                expect(TokenType.Semicolon);
+            }
         }
 
         return ;
@@ -283,7 +286,7 @@ public final class Analyser {
                 expect(TokenType.Semicolon);
             }
             else {
-                List<SymbolEntry> nowsymboltable = getnowsymboltable();
+                List<SymbolEntry> nowsymboltable = symbolTable;
                 var sys = nowgetSymbol(token.getValueString());
                 int off = nowsymboltable.size();
                 if (sys==null)
@@ -297,6 +300,7 @@ public final class Analyser {
                     if (token2.getValueString().equals("int"))
                     {
                         s.setReturnType(ReturnType.INT);
+                        s.setSymbolType(SymbolType.INT);
                     }
                     else if (token2.getValueString().equals("double"))
                     {
@@ -484,12 +488,15 @@ public final class Analyser {
     private void analysewhile_stmt() throws CompileError
     {
         expect(TokenType.WHILE_KW);
+        boolean kuohao = false;
+
         List<Instruction> in =getnowinstructions();
         int start1= in.size();
 
         in.add(new Instruction(Operation.br,0));
 //        var value = analyseexpr();
         analyseexpr();
+
         in = getnowinstructions();
 
         in.add(new Instruction(Operation.brtrue,1));
@@ -695,6 +702,14 @@ public final class Analyser {
         {
             return 1;
         }
+        if (in.getTokenType()==TokenType.Plus && out.getTokenType()==TokenType.RParen)
+        {
+            return 1;
+        }
+        if (in.getTokenType()==TokenType.Plus && out.getTokenType()==TokenType.Plus)
+        {
+            return 1;
+        }
         return -1;
     }
     public boolean iscpm(TokenType a)
@@ -727,8 +742,16 @@ public final class Analyser {
             if (stackop.size()==0)
             {
                 oprit = -1;
+                if (check(TokenType.LBParen))
+                {
+                    return re;
+                }
             }
-            else oprit = oprity(stackop.get(stackop.size()-1),peek());
+
+            else
+            {
+                oprit = oprity(stackop.get(stackop.size()-1),peek());
+            }
 
             if (oprit<0)
             {
@@ -748,6 +771,7 @@ public final class Analyser {
             else if (oprit==0)
             {
                 stackop.remove(stackop.size()-1);
+                expect(TokenType.RParen);
             }
             else if (oprit>0)
             {
@@ -838,7 +862,7 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.negi));
                             stackop.remove(stackop.size()-1);
                             Token temp = stackitem.get(stackitem.size()-1);
-                            temp.setValue(-(Integer)temp.getValue());
+
                             if (stackop.size()==0)break;
                         }
 
@@ -850,14 +874,25 @@ public final class Analyser {
 
                         if (l.getTokenType() == TokenType.Ident) {
                             SymbolEntry s = gt.findsymbolbyname(l.getValueString());
-                            if (s.getSymbolType() == SymbolType.INT) {
+                            boolean global = false;
+                            if(s==null)
+                            {
+                                s = gt.findglobalsymbolbyname(l.getValueString());
+                                global = true;
+                            }
+                            if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                            {
                                 re.type = ReturnType.INT;
                             }
-                            if (s.getSymbolType()==SymbolType.PARAM)
+                            if (global)
+                            {
+                                instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                            }
+                            else if (s.getSymbolType()==SymbolType.PARAM)
                             {
                                 instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                             }
-                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex(" ")+arg));
+                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
@@ -1190,13 +1225,9 @@ public final class Analyser {
                         }
                         if (s.getSymbolType()==SymbolType.PARAM)
                         {
-                            int order = gt.findparamindex(s.getSysname());
-                            instructions1.add(new Instruction(Operation.arga,order));
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else {
-                            int order = gt.findparamindex(" ");
-                            instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-order+arg));
-                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
@@ -1210,13 +1241,9 @@ public final class Analyser {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
                         if (s.getSymbolType()==SymbolType.PARAM)
                         {
-                            int order = gt.findparamindex(s.getSysname());
-                            instructions1.add(new Instruction(Operation.arga,order));
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
                         }
-                        else {
-                            int order = gt.findparamindex(" ");
-                            instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())-order+arg));
-                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (r.getTokenType()==TokenType.Uint){
@@ -1312,6 +1339,9 @@ public final class Analyser {
             if (stackop.size()==0)
             {
                 oprit = -1;
+                if (check(TokenType.LBParen)){
+                    return re;
+                }
             }
             else oprit = oprity(stackop.get(stackop.size()-1),peek());
 
@@ -1353,11 +1383,21 @@ public final class Analyser {
                     if (l.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(l.getValueString());
+                            global = true;
+                        }
                         if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
                         {
                             re.type = ReturnType.INT;
                         }
-                        if (s.getSymbolType()==SymbolType.PARAM)
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
@@ -1373,7 +1413,21 @@ public final class Analyser {
                     if (r.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
-                        if (s.getSymbolType()==SymbolType.PARAM)
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(r.getValueString());
+                            global = true;
+                        }
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
                         }
@@ -1426,10 +1480,25 @@ public final class Analyser {
 
                         if (l.getTokenType() == TokenType.Ident) {
                             SymbolEntry s = gt.findsymbolbyname(l.getValueString());
-                            if (s.getSymbolType() == SymbolType.INT) {
+                            boolean global = false;
+                            if(s==null)
+                            {
+                                s = gt.findglobalsymbolbyname(l.getValueString());
+                                global = true;
+                            }
+                            if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                            {
                                 re.type = ReturnType.INT;
                             }
-                            instructions1.add(new Instruction(Operation.arga, gt.findsymbolindexbyname(l.getValueString()) + arg));
+                            if (global)
+                            {
+                                instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                            }
+                            else if (s.getSymbolType()==SymbolType.PARAM)
+                            {
+                                instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                            }
+                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
@@ -1438,7 +1507,25 @@ public final class Analyser {
 
                         if (r.getTokenType() == TokenType.Ident) {
                             SymbolEntry s = gt.findsymbolbyname(r.getValueString());
-                            instructions1.add(new Instruction(Operation.arga, gt.findsymbolindexbyname(r.getValueString()) + arg));
+                            boolean global = false;
+                            if(s==null)
+                            {
+                                s = gt.findglobalsymbolbyname(r.getValueString());
+                                global = true;
+                            }
+                            if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                            {
+                                re.type = ReturnType.INT;
+                            }
+                            if (global)
+                            {
+                                instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                            }
+                            else if (s.getSymbolType()==SymbolType.PARAM)
+                            {
+                                instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
+                            }
+                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (r.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) r.getValue()));
@@ -1542,6 +1629,337 @@ public final class Analyser {
                     stackitem.remove(stackitem.size()-1);
                     stackop.remove(stackop.size()-1);
                     stackitem.add(new Token(TokenType.expr));
+                }
+                else if (op.getTokenType()==TokenType.DoubleEqual)
+                {
+                    Token l = stackitem.get(stackitem.size()-2);
+                    Token r = stackitem.get(stackitem.size()-1);
+
+                    if (l.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (l.getTokenType()==TokenType.Uint){
+                        re.type = ReturnType.INT;
+                        instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
+
+                    }
+
+                    if (r.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (r.getTokenType()==TokenType.Uint){
+                        instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
+
+                    }
+                    instructions1.add(new Instruction(Operation.cmpi));
+                    instructions1.add(new Instruction(Operation.not));
+                    stackitem.remove(stackitem.size()-1);
+                    stackitem.remove(stackitem.size()-1);
+                    stackop.remove(stackop.size()-1);
+                }
+                else if (op.getTokenType()==TokenType.Nequal)
+                {
+                    Token l = stackitem.get(stackitem.size()-2);
+                    Token r = stackitem.get(stackitem.size()-1);
+
+                    if (l.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (l.getTokenType()==TokenType.Uint){
+                        re.type = ReturnType.INT;
+                        instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
+
+                    }
+
+                    if (r.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (r.getTokenType()==TokenType.Uint){
+                        instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
+
+                    }
+                    instructions1.add(new Instruction(Operation.cmpi));
+                    stackitem.remove(stackitem.size()-1);
+                    stackitem.remove(stackitem.size()-1);
+                    stackop.remove(stackop.size()-1);
+                }
+                else if (op.getTokenType()==TokenType.Mequal)
+                {
+                    Token l = stackitem.get(stackitem.size()-2);
+                    Token r = stackitem.get(stackitem.size()-1);
+
+                    if (l.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (l.getTokenType()==TokenType.Uint){
+                        re.type = ReturnType.INT;
+                        instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
+
+                    }
+
+                    if (r.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (r.getTokenType()==TokenType.Uint){
+                        instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
+
+                    }
+                    instructions1.add(new Instruction(Operation.cmpi));
+                    instructions1.add(new Instruction(Operation.setlt));
+                    instructions1.add(new Instruction(Operation.not));
+                    stackitem.remove(stackitem.size()-1);
+                    stackitem.remove(stackitem.size()-1);
+                    stackop.remove(stackop.size()-1);
+                }
+                else if (op.getTokenType()==TokenType.Lequal)
+                {
+                    Token l = stackitem.get(stackitem.size()-2);
+                    Token r = stackitem.get(stackitem.size()-1);
+
+                    if (l.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (l.getTokenType()==TokenType.Uint){
+                        re.type = ReturnType.INT;
+                        instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
+
+                    }
+
+                    if (r.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                        if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (r.getTokenType()==TokenType.Uint){
+                        instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
+
+                    }
+                    instructions1.add(new Instruction(Operation.cmpi));
+                    instructions1.add(new Instruction(Operation.setgt));
+                    instructions1.add(new Instruction(Operation.not));
+                    stackitem.remove(stackitem.size()-1);
+                    stackitem.remove(stackitem.size()-1);
+                    stackop.remove(stackop.size()-1);
+                }
+                else if (op.getTokenType()==TokenType.More)
+                {
+                    Token l = stackitem.get(stackitem.size()-2);
+
+                    Token r = stackitem.get(stackitem.size()-1);
+
+                    if (l.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(l.getValueString());
+                            global = true;
+                        }
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (l.getTokenType()==TokenType.Uint){
+                        re.type = ReturnType.INT;
+                        instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
+
+                    }
+
+                    if (r.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(r.getValueString());
+                            global = true;
+                        }
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (r.getTokenType()==TokenType.Uint){
+                        instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
+                    }
+
+                    instructions1.add(new Instruction(Operation.cmpi));
+                    instructions1.add(new Instruction(Operation.setgt));
+                    stackitem.remove(stackitem.size()-1);
+                    stackitem.remove(stackitem.size()-1);
+                    stackop.remove(stackop.size()-1);
+                }
+                else if (op.getTokenType()==TokenType.Less)
+                {
+                    Token l = stackitem.get(stackitem.size()-2);
+                    Token r = stackitem.get(stackitem.size()-1);
+
+                    if (l.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(l.getValueString());
+                            global = true;
+                        }
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (l.getTokenType()==TokenType.Uint){
+                        re.type = ReturnType.INT;
+                        instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
+
+                    }
+
+                    if (r.getTokenType()==TokenType.Ident)
+                    {
+                        SymbolEntry s = gt.findsymbolbyname(r.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(r.getValueString());
+                            global = true;
+                        }
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
+                        {
+                            instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
+                        }
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
+                        instructions1.add(new Instruction(Operation.load64));
+                    }
+                    else if (r.getTokenType()==TokenType.Uint){
+                        instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
+
+                    }
+
+                    if (r.getTokenType()==TokenType.expr){
+                        instructions1.add(new Instruction(Operation.cmpi));
+                        instructions1.add(new Instruction(Operation.setgt));
+                        stackitem.remove(stackitem.size()-1);
+                        stackitem.remove(stackitem.size()-1);
+                        stackop.remove(stackop.size()-1);
+
+                    }
+                    else {
+                        instructions1.add(new Instruction(Operation.cmpi));
+                        instructions1.add(new Instruction(Operation.setlt));
+                        stackitem.remove(stackitem.size() - 1);
+                        stackitem.remove(stackitem.size() - 1);
+                        stackop.remove(stackop.size() - 1);
+                    }
                 }
                 if ((check(TokenType.Semicolon)||check(TokenType.LBParen))&&stackop.size()==0)
                 {
