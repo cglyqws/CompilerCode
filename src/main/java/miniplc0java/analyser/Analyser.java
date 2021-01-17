@@ -1919,7 +1919,13 @@ public final class Analyser {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
                 List<Instruction> in = getnowinstructions();
-                in.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(token.getValueString())));
+                FuntionEntry f = gt.getnowfunction();
+                int arg=0;
+                if (f.getReturncount()!=0)
+                {
+                    arg=1;
+                }
+                in.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(token.getValueString())-gt.findparamindex(" ")+arg));
                 expect(TokenType.Equal);
                 analyseexpr();
                 in.add(new Instruction(Operation.store64));
