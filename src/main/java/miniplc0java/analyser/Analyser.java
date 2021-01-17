@@ -713,6 +713,14 @@ public final class Analyser {
         {
             return 1;
         }
+        if (in.getTokenType()==TokenType.Plus && out.getTokenType()==TokenType.Minus)
+        {
+            return 1;
+        }
+        if (in.getTokenType()==TokenType.Minus && out.getTokenType()==TokenType.Plus)
+        {
+            return 1;
+        }
         if (in.getTokenType()==TokenType.Minus&& out.getTokenType()==TokenType.Minus)
         {
             return 1;
