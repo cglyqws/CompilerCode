@@ -836,6 +836,10 @@ public final class Analyser {
                         instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
 
                     }
+                    else if (l.getTokenType()==TokenType.CHAR_LITERAL)
+                    {
+                        instructions1.add(new Instruction(Operation.push, r.getValue().hashCode()));
+                    }
 
                     if (r.getTokenType()==TokenType.Ident)
                     {
@@ -869,7 +873,7 @@ public final class Analyser {
                             {
                                 instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                             }
-                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())+ arg));
+                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
@@ -881,7 +885,7 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.negi));
                             stackop.remove(stackop.size()-1);
                             Token temp = stackitem.get(stackitem.size()-1);
-
+                            re.type = ReturnType.INT;
                             if (stackop.size()==0)break;
                         }
 
@@ -933,7 +937,7 @@ public final class Analyser {
                         }
                         else if (r.getTokenType()==TokenType.CHAR_LITERAL)
                         {
-                            instructions1.add(new Instruction(Operation.push,(int) r.getValue()));
+                            instructions1.add(new Instruction(Operation.push, r.getValue().hashCode()));
                         }
                         instructions1.add(new Instruction(Operation.subi));
 
@@ -984,7 +988,11 @@ public final class Analyser {
                     }
                     else if (r.getTokenType()==TokenType.CHAR_LITERAL)
                     {
-                        instructions1.add(new Instruction(Operation.push,(int) r.getValue()));
+                        instructions1.add(new Instruction(Operation.push, r.getValue().hashCode()));
+                        if ((char)r.getValue()=='\r')
+                        {
+                            instructions1.get(instructions1.size()-1).setX(13);
+                        }
                     }
                     instructions1.add(new Instruction(Operation.cmpi));
                     instructions1.add(new Instruction(Operation.not));
@@ -1175,7 +1183,7 @@ public final class Analyser {
                     }
                     else if (r.getTokenType()==TokenType.CHAR_LITERAL)
                     {
-                        instructions1.add(new Instruction(Operation.push,(int) r.getValue()));
+                        instructions1.add(new Instruction(Operation.push, r.getValue().hashCode()));
                     }
                     if (flagr == -1){
                         instructions1.add(new Instruction(Operation.negi));
@@ -1444,6 +1452,11 @@ public final class Analyser {
                         instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
 
                     }
+                    else if (l.getTokenType()==TokenType.CHAR_LITERAL)
+                    {
+                        instructions1.add(new Instruction(Operation.push, l.getValue().hashCode()));
+                        re.type = ReturnType.INT;
+                    }
 
                     if (r.getTokenType()==TokenType.Ident)
                     {
@@ -1568,7 +1581,10 @@ public final class Analyser {
                             re.type = ReturnType.INT;
                         }
                         instructions1.add(new Instruction(Operation.subi));
-
+                        if (r.getTokenType()==TokenType.expr&&l.getTokenType()!=TokenType.expr)
+                        {
+                            instructions1.add(new Instruction(Operation.negi));
+                        }
                         stackitem.remove(stackitem.size() - 1);
                         stackitem.remove(stackitem.size() - 1);
                         stackop.remove(stackop.size()-1);
@@ -2185,6 +2201,21 @@ public final class Analyser {
 
             return re;
         }
+        else if (check(TokenType.CHAR_LITERAL))
+        {
+            Token l = expect(TokenType.CHAR_LITERAL);
+            if (check(TokenType.RParen))
+            {
+                List<Instruction> in = getnowinstructions();
+                in.add(new Instruction(Operation.push,l.getValue().hashCode()));
+            }
+            else {
+                TypeValue re = analyseopgexpr2(l);
+                return re;
+            }
+
+
+        }
 
         else throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
         if (check(TokenType.AS_KW))
@@ -2329,9 +2360,9 @@ public final class Analyser {
     }
     private void analyseparam() throws  CompileError
     {
-        if (check(TokenType.Const))
+        if (check(TokenType.CONST_KW))
         {
-            expect(TokenType.Const);
+            expect(TokenType.CONST_KW);
         }
         var token = expect(TokenType.Ident);
         expect(TokenType.Collon);
@@ -2552,7 +2583,7 @@ public final class Analyser {
                 fun.setParam(1);
                 fun.setLocalvar(0);
                 fun.setFuncname("getchar");
-                fun.setReturnType(ReturnType.CHAR);
+                fun.setReturnType(ReturnType.INT);
                 fun.setReturncount(1);
                 return fun;
             case "putint":
