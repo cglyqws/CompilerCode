@@ -626,6 +626,10 @@ public final class Analyser {
 
     public int oprity(Token in,Token out)
     {
+        if (in.getTokenType()==TokenType.Mult&&out.getTokenType()==TokenType.Plus)
+        {
+            return 1;
+        }
         if (isitem(in) && out.getTokenType()==TokenType.Plus)
         {
             return 1;
@@ -1144,11 +1148,22 @@ public final class Analyser {
                         instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
 
                     }
-                    instructions1.add(new Instruction(Operation.cmpi));
-                    instructions1.add(new Instruction(Operation.setlt));
-                    stackitem.remove(stackitem.size()-1);
-                    stackitem.remove(stackitem.size()-1);
-                    stackop.remove(stackop.size()-1);
+
+                    if (r.getTokenType()==TokenType.expr){
+                        instructions1.add(new Instruction(Operation.cmpi));
+                        instructions1.add(new Instruction(Operation.setgt));
+                        stackitem.remove(stackitem.size()-1);
+                        stackitem.remove(stackitem.size()-1);
+                        stackop.remove(stackop.size()-1);
+
+                    }
+                    else {
+                        instructions1.add(new Instruction(Operation.cmpi));
+                        instructions1.add(new Instruction(Operation.setlt));
+                        stackitem.remove(stackitem.size() - 1);
+                        stackitem.remove(stackitem.size() - 1);
+                        stackop.remove(stackop.size() - 1);
+                    }
                 }
                 else if (op.getTokenType()== TokenType.Mult)
                 {
@@ -1255,7 +1270,7 @@ public final class Analyser {
                 else {
                     if (peek().getTokenType()!=TokenType.LBParen)
                     {
-                        expect(peek().getTokenType());
+//                        expect(peek().getTokenType());
                     }
                 }
             }
