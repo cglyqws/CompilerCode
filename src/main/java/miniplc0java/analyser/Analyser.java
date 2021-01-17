@@ -263,6 +263,7 @@ public final class Analyser {
                     if (token2.getValueString().equals("int"))
                     {
                         s.setReturnType(ReturnType.INT);
+                        s.setSymbolType(SymbolType.INT);
                     }
                     else if (token2.getValueString().equals("double"))
                     {
