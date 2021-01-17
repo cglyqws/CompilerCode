@@ -686,6 +686,10 @@ public final class Analyser {
         {
             return 1;
         }
+        if (out.getTokenType()==TokenType.Comma)
+        {
+            return 1;
+        }
         return -1;
     }
     public boolean iscpm(TokenType a)
@@ -1244,7 +1248,7 @@ public final class Analyser {
                     stackop.remove(stackop.size()-1);
                     stackitem.add(new Token(TokenType.expr));
                 }
-                if ((check(TokenType.Semicolon)||check(TokenType.LBParen)||check(TokenType.RParen))&&stackop.size()==0)
+                if ((check(TokenType.Semicolon)||check(TokenType.LBParen)||check(TokenType.RParen)||check(TokenType.Comma))&&stackop.size()==0)
                 {
                     break;
                 }
