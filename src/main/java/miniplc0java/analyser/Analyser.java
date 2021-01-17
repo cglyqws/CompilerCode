@@ -275,7 +275,7 @@ public final class Analyser {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
                 List<Instruction> in = getglobalinstruction();
-                in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(token.getValueString())-9));
+                in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(token.getValueString())));
                 expect(TokenType.Equal);
                 analyseexpr();
                 in.add(new Instruction(Operation.store64));
@@ -1567,7 +1567,7 @@ public final class Analyser {
                 }
                 if (global)
                 {
-                    in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s1.getSysname())-9));
+                    in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s1.getSysname())));
                 }
                 else if (s1.getSymbolType()==SymbolType.PARAM)
                 {
@@ -1657,7 +1657,7 @@ public final class Analyser {
                  }
                  if (global)
                  {
-                     in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())-9));
+                     in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
                  }
                  else if (s.getSymbolType()==SymbolType.PARAM){
                      int order = gt.findparamindex(tokent.getValueString());
