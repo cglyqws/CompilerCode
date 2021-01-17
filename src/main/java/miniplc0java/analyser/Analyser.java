@@ -728,7 +728,7 @@ public final class Analyser {
                     stackitem.add(peek());
                 }
                 else {
-                    if (stackop.size()!=0&&iscpm(stackop.get(stackop.size()-1).getTokenType())&&peek().getTokenType()==TokenType.Minus&&stackitem.size()>1)
+                    if (stackop.size()!=0&&iscpm(stackop.get(stackop.size()-1).getTokenType())&&peek().getTokenType()==TokenType.Minus&&stackitem.size()<=1)
                     {
                         stackitem.add(peek());
                     }
