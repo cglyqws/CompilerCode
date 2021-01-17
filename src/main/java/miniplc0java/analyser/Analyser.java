@@ -766,11 +766,21 @@ public final class Analyser {
                     if (l.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(l.getValueString());
+                            global = true;
+                        }
                         if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
                         {
                             re.type = ReturnType.INT;
                         }
-                        if (s.getSymbolType()==SymbolType.PARAM)
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
