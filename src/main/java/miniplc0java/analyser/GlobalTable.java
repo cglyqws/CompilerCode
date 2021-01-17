@@ -72,7 +72,32 @@ public class GlobalTable {
         }
         return -1;
     }
-
+    public int findglobalsymbolindexbyname (String name)
+    {
+        List<SymbolEntry> systable = symbolTable;
+        int len = systable.size();
+        for (int i =0 ;i<len ;i++)
+        {
+            if (systable.get(i).getSysname().equals(name))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public SymbolEntry findglobalsymbolbyname (String name)
+    {
+        List<SymbolEntry> systable = symbolTable;
+        int len = systable.size();
+        for (int i =0 ;i<len ;i++)
+        {
+            if (systable.get(i).getSysname().equals(name))
+            {
+                return systable.get(i);
+            }
+        }
+        return null;
+    }
     public SymbolEntry findsymbolbyname (String name)
     {
         List<SymbolEntry> systable = getnowfunction().getSymbolTable();
@@ -108,6 +133,32 @@ public class GlobalTable {
             }
         }
         return null;
+    }
+
+    public int findparamindex(String name)
+    {
+        FuntionEntry f = getnowfunction();
+        int arg = 0;
+        if (f.getReturncount()!=0)
+        {
+            arg = 1;
+        }
+        int count =0;
+        List<SymbolEntry> slist = f.getSymbolTable();
+        for (int i=0;i<slist.size();i++)
+        {
+            if (slist.get(i).getSymbolType()==SymbolType.PARAM)
+            {
+                if (slist.get(i).getSysname().equals(name))
+                {
+                    return arg+count;
+                }
+                count++;
+            }
+        }
+        return arg+count;
+
+
     }
 
     public FuntionEntry getnowfunction()
