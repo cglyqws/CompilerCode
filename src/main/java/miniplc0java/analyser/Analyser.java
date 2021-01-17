@@ -275,7 +275,7 @@ public final class Analyser {
                     throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
                 }
                 List<Instruction> in = getglobalinstruction();
-                in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(token.getValueString())));
+                in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(token.getValueString())-9));
                 expect(TokenType.Equal);
                 analyseexpr();
                 in.add(new Instruction(Operation.store64));
@@ -1559,7 +1559,17 @@ public final class Analyser {
                 int arg = gt.getnowfunction().getReturncount()==0?0:1;
                 expect(TokenType.Equal);
                 SymbolEntry s1 = gt.findsymbolbyname(tokent.getValueString());
-                if (s1.getSymbolType()==SymbolType.PARAM)
+                boolean global = false;
+                if (s1==null)
+                {
+                    s1 = gt.findglobalsymbolbyname(tokent.getValueString());
+                    global = true;
+                }
+                if (global)
+                {
+                    in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s1.getSysname())-9));
+                }
+                else if (s1.getSymbolType()==SymbolType.PARAM)
                 {
                     in.add(new Instruction(Operation.arga,gt.findparamindex(s1.getSysname())));
                 }
@@ -1571,6 +1581,10 @@ public final class Analyser {
 
                 TypeValue TV = analyseexpr();
                 SymbolEntry s = gt.findsymbolbyname(tokent.getValueString());
+                if (s==null)
+                {
+                    s = gt.findglobalsymbolbyname(tokent.getValueString());
+                }
                 if (typematch(s.getType(),TV.type)||s.returnType==TV.type){
                     in.add(new Instruction(Operation.store64,null));
                 }
@@ -1634,10 +1648,18 @@ public final class Analyser {
             else if (!check(TokenType.AS_KW)&&!isop())
             {
                 List<Instruction> in = getnowinstructions();
-
+                boolean global = false;
                  SymbolEntry s = gt.findsymbolbyname(tokent.getValueString());
-
-                 if (s.getSymbolType()==SymbolType.PARAM){
+                 if (s==null)
+                 {
+                     s = gt.findglobalsymbolbyname(tokent.getValueString());
+                     global = true;
+                 }
+                 if (global)
+                 {
+                     in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())-9));
+                 }
+                 else if (s.getSymbolType()==SymbolType.PARAM){
                      int order = gt.findparamindex(tokent.getValueString());
                      in.add(new Instruction(Operation.arga, order));
                  }
