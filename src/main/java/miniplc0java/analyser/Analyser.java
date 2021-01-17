@@ -225,7 +225,10 @@ public final class Analyser {
             }
             else {
                 analyseglobaldecl_stmt();
-                expect(TokenType.Semicolon);
+                if (check(TokenType.Semicolon))
+                {
+                    expect(TokenType.Semicolon);
+                }
             }
         }
 
@@ -707,6 +710,10 @@ public final class Analyser {
             return 1;
         }
         if (in.getTokenType()==TokenType.Plus && out.getTokenType()==TokenType.Plus)
+        {
+            return 1;
+        }
+        if (in.getTokenType()==TokenType.Minus&& out.getTokenType()==TokenType.Minus)
         {
             return 1;
         }
@@ -1227,7 +1234,7 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex(" ")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
