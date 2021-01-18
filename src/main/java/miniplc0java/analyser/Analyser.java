@@ -540,7 +540,7 @@ public final class Analyser {
             }
             else if (in.get(j).getX()==-10001)
             {
-                in.get(j).setX(whilestart-j);
+                in.get(j).setX(start1-j);
             }
         }
         if (i==0)
