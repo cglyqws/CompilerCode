@@ -528,7 +528,7 @@ public final class Analyser {
         int i = analyseblockstmt();
         in = getnowinstructions();
         whileend = in.size();
-        for (int j=whilestart-1;j<whileend;j++)
+        for (int j=start1;j<whileend;j++)
         {
             if (in.get(j).getX()==null)
             {
@@ -2239,6 +2239,10 @@ public final class Analyser {
                  {
                      s = gt.findglobalsymbolbyname(tokent.getValueString());
                      global = true;
+                 }
+                 if (s==null)
+                 {
+                      throw new AnalyzeError(ErrorCode.NotDeclared,peek().getStartPos());
                  }
                  if (global)
                  {
