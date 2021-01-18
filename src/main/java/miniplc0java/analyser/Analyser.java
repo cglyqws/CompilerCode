@@ -22,7 +22,7 @@ public final class Analyser {
     int localvar=0;
     /** 当前偷看的 token */
     Token peekedToken = null;
-
+    int whilecount=0;
     GlobalTable gt = GlobalTable.getGlobalTable();
     ArrayList<FuntionEntry> funtionTable = gt.getFuntionTable();
     ArrayList<Instruction> instructions = gt.getInstructions();
@@ -321,6 +321,8 @@ public final class Analyser {
         {
 
             expect(TokenType.CONST_KW);
+            localvar += 1;
+
             var token = expect(TokenType.Ident);
             expect(TokenType.Collon);
             var token2 = analysety();
@@ -330,27 +332,43 @@ public final class Analyser {
                 throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token2.getStartPos());
             }
 
-            List<SymbolEntry> nowsymboltable = getnowsymboltable();
-            var sys = nowgetSymbol(token.getValueString());
-            int off = nowsymboltable.size();
-            if (sys==null)
+            if (check(TokenType.Equal))
             {
-                SymbolEntry s = new SymbolEntry();
-                s.setConstant(true);
-                s.setLevel(now);
-                s.setSysname(token.getValueString());
-                s.setInitialized(true);
-                s.setType(token2.getTokenType());
+                List<SymbolEntry> nowsymboltable = symbolTable;
+                var sys = gt.findglobalsymbolbyname(token.getValueString());
 
-                nowsymboltable.add(s);
+                int off = nowsymboltable.size();
+                if (sys==null)
+                {
+                    SymbolEntry s = new SymbolEntry();
+                    s.setConstant(true);
+                    s.setLevel(now);
+                    s.setSysname(token.getValueString());
+                    s.setInitialized(true);
+                    s.setType(token2.getTokenType());
+                    if (token2.getValueString().equals("int"))
+                    {
+                        s.setReturnType(ReturnType.INT);
+                        s.setSymbolType(SymbolType.INT);
+                    }
+                    else if (token2.getValueString().equals("double"))
+                    {
+                        s.setReturnType(ReturnType.DOUBLE);
+                        s.setSymbolType(SymbolType.INT);
+                    }
+
+                    nowsymboltable.add(s);
+                }
+                else {
+                    throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
+                }
+                List<Instruction> in = getglobalinstruction();
+                in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(token.getValueString())));
+                expect(TokenType.Equal);
+                analyseexpr();
+                in.add(new Instruction(Operation.store64));
+                expect(TokenType.Semicolon);
             }
-            else {
-                throw new AnalyzeError(ErrorCode.DuplicateDeclaration, /* 当前位置 */ token.getStartPos());
-            }
-            instructions.add(new Instruction(Operation.loca,off));
-            expect(TokenType.Equal);
-            analyseexpr();
-            expect(TokenType.Semicolon);
 
         }
         else throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
@@ -866,10 +884,21 @@ public final class Analyser {
                         Token l = stackitem.get(stackitem.size() - 1);
                         if (l.getTokenType() == TokenType.Ident) {
                             SymbolEntry s = gt.findsymbolbyname(l.getValueString());
-                            if (s.getSymbolType() == SymbolType.INT) {
+                            boolean global = false;
+                            if(s==null)
+                            {
+                                s = gt.findglobalsymbolbyname(l.getValueString());
+                                global = true;
+                            }
+                            if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                            {
                                 re.type = ReturnType.INT;
                             }
-                            if (s.getSymbolType()==SymbolType.PARAM)
+                            if (global)
+                            {
+                                instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                            }
+                            else if (s.getSymbolType()==SymbolType.PARAM)
                             {
                                 instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                             }
@@ -879,13 +908,17 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
                             re.type = ReturnType.INT;
                         }
+                        else if (l.getTokenType()==TokenType.DOUBLE_LITERAL)
+                        {
+                            instructions1.add(new Instruction(Operation.push, Data2Byte.doubletoint((double)l.getValue())));
+                            re.type = ReturnType.DOUBLE;
+                        }
 
                         while (stackop.get(stackop.size()-1).getTokenType()==TokenType.Minus)
                         {
                             instructions1.add(new Instruction(Operation.negi));
                             stackop.remove(stackop.size()-1);
                             Token temp = stackitem.get(stackitem.size()-1);
-                            re.type = ReturnType.INT;
                             if (stackop.size()==0)break;
                         }
 
@@ -920,6 +953,11 @@ public final class Analyser {
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
 
+                        }
+                        else if (l.getTokenType()==TokenType.DOUBLE_LITERAL)
+                        {
+                            instructions1.add(new Instruction(Operation.push, Data2Byte.doubletoint((double)l.getValue())));
+                            re.type = ReturnType.DOUBLE;
                         }
 
                         if (r.getTokenType() == TokenType.Ident) {
@@ -1265,15 +1303,25 @@ public final class Analyser {
                     if (l.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(l.getValueString());
+                            global = true;
+                        }
                         if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
                         {
                             re.type = ReturnType.INT;
                         }
-                        if (s.getSymbolType()==SymbolType.PARAM)
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex(" ")+arg));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex("")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
@@ -1281,20 +1329,44 @@ public final class Analyser {
                         instructions1.add(new Instruction(Operation.push, (Integer)l.getValue()));
 
                     }
+                    else if (l.getTokenType()==TokenType.DOUBLE_LITERAL)
+                    {
+                        instructions1.add(new Instruction(Operation.push, Data2Byte.doubletoint((double)l.getValue())));
+                        re.type = ReturnType.DOUBLE;
+                    }
 
                     if (r.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(r.getValueString());
-                        if (s.getSymbolType()==SymbolType.PARAM)
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(r.getValueString());
+                            global = true;
+                        }
+                        if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
+                        {
+                            re.type = ReturnType.INT;
+                        }
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(r.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(r.getValueString())-gt.findparamindex("")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (r.getTokenType()==TokenType.Uint){
                         instructions1.add(new Instruction(Operation.push,(Integer)r.getValue()));
 
+                    }
+                    else if (r.getTokenType()==TokenType.DOUBLE_LITERAL)
+                    {
+                        instructions1.add(new Instruction(Operation.push, Data2Byte.doubletoint((double)r.getValue())));
+                        re.type = ReturnType.DOUBLE;
                     }
                     instructions1.add(new Instruction(Operation.muli));
                     stackitem.remove(stackitem.size()-1);
@@ -1310,11 +1382,21 @@ public final class Analyser {
                     if (l.getTokenType()==TokenType.Ident)
                     {
                         SymbolEntry s = gt.findsymbolbyname(l.getValueString());
+                        boolean global = false;
+                        if(s==null)
+                        {
+                            s = gt.findglobalsymbolbyname(l.getValueString());
+                            global = true;
+                        }
                         if (s.getSymbolType()==SymbolType.INT||s.getReturnType() == ReturnType.INT)
                         {
                             re.type = ReturnType.INT;
                         }
-                        if (s.getSymbolType()==SymbolType.PARAM)
+                        if (global)
+                        {
+                            instructions1.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s.getSysname())));
+                        }
+                        else if (s.getSymbolType()==SymbolType.PARAM)
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
@@ -2184,7 +2266,15 @@ public final class Analyser {
         }
         else if (check(TokenType.DOUBLE_LITERAL))
         {
-            expect(TokenType.DOUBLE_LITERAL);
+
+            Token d = expect(TokenType.DOUBLE_LITERAL);
+            if (check(TokenType.Semicolon))
+            {
+                List<Instruction> in = getnowinstructions();
+                in.add(new Instruction(Operation.push,Data2Byte.doubletoint((double)d.getValue())));
+                return new TypeValue(ReturnType.DOUBLE,null);
+            }
+            else return analyseopgexpr(d);
         }
         else if (check(TokenType.STRING_LITERAL))
         {
@@ -2304,7 +2394,9 @@ public final class Analyser {
         }
         else if (check(TokenType.WHILE_KW))
         {
+            whilecount++;
             analysewhile_stmt();
+            whilecount--;
         }
         else if (check(TokenType.RETURN_KW))
         {
@@ -2321,10 +2413,18 @@ public final class Analyser {
         }
         else if (check(TokenType.BREAK_KW))
         {
+            if (whilecount==0)
+            {
+                throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
+            }
             analysebreak_stmt();
         }
         else if (check(TokenType.CONTINUE_KW))
         {
+            if (whilecount==0)
+            {
+                throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ peek().getStartPos());
+            }
             analysecontinue_stmt();
         }
         else {

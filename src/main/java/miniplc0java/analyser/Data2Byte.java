@@ -73,6 +73,17 @@ public class Data2Byte {
         return getBytes(intBits);
     }
 
+    public static int doubletoint(double data)
+    {
+        byte[] src = getBytes(data);
+        int value;
+        value = (int) ((src[0] & 0xFF)
+                | ((src[1] & 0xFF)<<8)
+                | ((src[2] & 0xFF)<<16)
+                | ((src[3] & 0xFF)<<24));
+        return value;
+
+    }
     public static byte[] getBytes(String data, String charsetName) {
         Charset charset = Charset.forName(charsetName);
         return data.getBytes(charset);

@@ -182,11 +182,11 @@ public class Tokenizer {
         {
             tempstring.append(it.nextChar());
         }
-        int uil = 0;
+        long uil = 0;
         int deci = 0;
         double result;
         int flag=1;
-        uil = Integer.parseInt(tempstring.toString());
+        uil = Long.parseLong(tempstring.toString());
 
         if (it.peekChar()=='.')
         {
