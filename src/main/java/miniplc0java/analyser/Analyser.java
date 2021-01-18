@@ -1585,6 +1585,10 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.negi));
                         }
+                        else if (l.getTokenType()==TokenType.expr&&r.getTokenType()!=TokenType.expr)
+                        {
+                            instructions1.add(new Instruction(Operation.negi));
+                        }
                         stackitem.remove(stackitem.size() - 1);
                         stackitem.remove(stackitem.size() - 1);
                         stackop.remove(stackop.size()-1);
