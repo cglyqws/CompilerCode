@@ -940,7 +940,10 @@ public final class Analyser {
                             instructions1.add(new Instruction(Operation.push, r.getValue().hashCode()));
                         }
                         instructions1.add(new Instruction(Operation.subi));
-
+                        if (r.getTokenType()==TokenType.expr&&l.getTokenType()!=TokenType.expr)
+                        {
+                            instructions1.add(new Instruction(Operation.negi));
+                        }
                         stackitem.remove(stackitem.size() - 1);
                         stackitem.remove(stackitem.size() - 1);
                         stackop.remove(stackop.size()-1);
@@ -1585,7 +1588,7 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.negi));
                         }
-                        
+
                         stackitem.remove(stackitem.size() - 1);
                         stackitem.remove(stackitem.size() - 1);
                         stackop.remove(stackop.size()-1);
