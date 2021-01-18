@@ -828,7 +828,7 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex("")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
@@ -873,7 +873,7 @@ public final class Analyser {
                             {
                                 instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                             }
-                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex("")+arg));
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
@@ -915,7 +915,7 @@ public final class Analyser {
                             {
                                 instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                             }
-                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                            else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex("")+arg));
                             instructions1.add(new Instruction(Operation.load64));
                         } else if (l.getTokenType() == TokenType.Uint) {
                             instructions1.add(new Instruction(Operation.push, (Integer) l.getValue()));
@@ -963,7 +963,7 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex(" ")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
@@ -1159,7 +1159,7 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex(" ")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
@@ -1315,7 +1315,7 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex("")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
@@ -1697,7 +1697,7 @@ public final class Analyser {
                         {
                             instructions1.add(new Instruction(Operation.arga,gt.findsymbolindexbyname(l.getValueString())+ arg));
                         }
-                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())));
+                        else instructions1.add(new Instruction(Operation.loca,gt.findsymbolindexbyname(l.getValueString())-gt.findparamindex(" ")+arg));
                         instructions1.add(new Instruction(Operation.load64));
                     }
                     else if (l.getTokenType()==TokenType.Uint){
