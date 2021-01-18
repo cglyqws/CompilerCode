@@ -2150,10 +2150,15 @@ public final class Analyser {
                     s1 = gt.findglobalsymbolbyname(tokent.getValueString());
                     global = true;
                 }
+                if (s1.isConstant())
+                {
+                    throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token.getStartPos());
+                }
                 if (global)
                 {
                     in.add(new Instruction(Operation.globa,gt.findglobalsymbolindexbyname(s1.getSysname())));
                 }
+
                 else if (s1.getSymbolType()==SymbolType.PARAM)
                 {
                     in.add(new Instruction(Operation.arga,gt.findparamindex(s1.getSysname())));
@@ -2296,6 +2301,10 @@ public final class Analyser {
                 List<Instruction> in = getnowinstructions();
                 in.add(new Instruction(Operation.push,Data2Byte.doubletoint((double)d.getValue())));
                 return new TypeValue(ReturnType.DOUBLE,null);
+            }
+            else if (peek().getValueString().equals("f"))
+            {
+                throw new AnalyzeError(ErrorCode.InvalidInput, /* 当前位置 */ token.getStartPos());
             }
             else return analyseopgexpr(d);
         }
