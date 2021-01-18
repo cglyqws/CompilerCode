@@ -23,7 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90564160-5767-4495-b5ee-218dc36d9e63" name="Default Changelist" comment="test">
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,7 +267,7 @@
       <workItem from="1610753679287" duration="25402000" />
       <workItem from="1610851077630" duration="17558000" />
       <workItem from="1610885011192" duration="25364000" />
-      <workItem from="1610938037619" duration="10069000" />
+      <workItem from="1610938037619" duration="12609000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1608711689978</created>
@@ -325,38 +326,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1610738978509" />
-    <state width="1199" height="463" key="GridCell.Tab.0.bottom" timestamp="1610962001752">
+    <state width="1877" height="136" key="GridCell.Tab.0.bottom" timestamp="1610964658896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001752" />
-    <state width="1199" height="463" key="GridCell.Tab.0.center" timestamp="1610962001750">
+    <state width="1877" height="136" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610964658896" />
+    <state width="1877" height="136" key="GridCell.Tab.0.center" timestamp="1610964658896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001750" />
-    <state width="1199" height="463" key="GridCell.Tab.0.left" timestamp="1610962001750">
+    <state width="1877" height="136" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610964658896" />
+    <state width="1877" height="136" key="GridCell.Tab.0.left" timestamp="1610964658896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001750" />
-    <state width="1199" height="463" key="GridCell.Tab.0.right" timestamp="1610962001751">
+    <state width="1877" height="136" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610964658896" />
+    <state width="1877" height="136" key="GridCell.Tab.0.right" timestamp="1610964658896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001751" />
-    <state width="1199" height="463" key="GridCell.Tab.1.bottom" timestamp="1610962001752">
+    <state width="1877" height="136" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610964658896" />
+    <state width="1877" height="265" key="GridCell.Tab.1.bottom" timestamp="1610963868078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001752" />
-    <state width="1199" height="463" key="GridCell.Tab.1.center" timestamp="1610962001752">
+    <state width="1877" height="265" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610963868078" />
+    <state width="1877" height="265" key="GridCell.Tab.1.center" timestamp="1610963868078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001752" />
-    <state width="1199" height="463" key="GridCell.Tab.1.left" timestamp="1610962001752">
+    <state width="1877" height="265" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610963868078" />
+    <state width="1877" height="265" key="GridCell.Tab.1.left" timestamp="1610963868078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001752" />
-    <state width="1199" height="463" key="GridCell.Tab.1.right" timestamp="1610962001752">
+    <state width="1877" height="265" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610963868078" />
+    <state width="1877" height="265" key="GridCell.Tab.1.right" timestamp="1610963868078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1199" height="463" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610962001752" />
+    <state width="1877" height="265" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610963868078" />
     <state x="693" y="189" key="SettingsEditor" timestamp="1610596827295">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -387,62 +388,62 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>1181</line>
+          <line>1200</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>491</line>
+          <line>493</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2196</line>
+          <line>2215</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>592</line>
+          <line>611</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2114</line>
+          <line>2133</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>757</line>
+          <line>776</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2169</line>
+          <line>2188</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2215</line>
+          <line>2234</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>241</line>
+          <line>243</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>1449</line>
+          <line>1468</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>2388</line>
+          <line>2407</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java</url>
-          <line>1033</line>
+          <line>1052</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>

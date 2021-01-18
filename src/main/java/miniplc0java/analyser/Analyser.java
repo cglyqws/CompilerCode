@@ -23,6 +23,8 @@ public final class Analyser {
     /** 当前偷看的 token */
     Token peekedToken = null;
     int whilecount=0;
+    int whilestart =0;
+    int whileend=0;
     GlobalTable gt = GlobalTable.getGlobalTable();
     ArrayList<FuntionEntry> funtionTable = gt.getFuntionTable();
     ArrayList<Instruction> instructions = gt.getInstructions();
@@ -509,7 +511,6 @@ public final class Analyser {
     private void analysewhile_stmt() throws CompileError
     {
         expect(TokenType.WHILE_KW);
-        boolean kuohao = false;
 
         List<Instruction> in =getnowinstructions();
         int start1= in.size();
@@ -523,7 +524,25 @@ public final class Analyser {
         in.add(new Instruction(Operation.brtrue,1));
         int start2 = in.size();
         in.add(new Instruction(Operation.br,1));
+        whilestart = in.size();
         int i = analyseblockstmt();
+        in = getnowinstructions();
+        whileend = in.size();
+        for (int j=whilestart-1;j<whileend;j++)
+        {
+            if (in.get(j).getX()==null)
+            {
+                continue;
+            }
+            else if (in.get(j).getX()==-10000)
+            {
+                in.get(j).setX(whileend-j);
+            }
+            else if (in.get(j).getX()==-10001)
+            {
+                in.get(j).setX(whilestart-j);
+            }
+        }
         if (i==0)
         {
             return;
@@ -2437,12 +2456,18 @@ public final class Analyser {
     {
         expect(TokenType.BREAK_KW);
         expect(TokenType.Semicolon);
+        List<Instruction> in = getnowinstructions();
+        int now = in.size();
+        in.add(new Instruction(Operation.br,-10000));
     }
 
     private void analysecontinue_stmt() throws  CompileError
     {
         expect(TokenType.CONTINUE_KW);
         expect(TokenType.Semicolon);
+        List<Instruction> in = getnowinstructions();
+        int now = in.size();
+        in.add(new Instruction(Operation.br,-10001));
     }
     /**
      *
